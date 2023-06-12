@@ -1,0 +1,14 @@
+### Editing History
+
+2022.08.26      chira/chira_map.py      line:47
+### Description 
+BWA output in SAM format, but samtools input in BAM format by default.
+Appending an optional argument "-S" into the pipeline with samtools. 
+### Original
+bwacall = ("bwa mem " + " ".join(bwa_params) + " | samtools view -hb - > " + bam)
+### New
+bwacall = ("bwa mem " + " ".join(bwa_params) + " | samtools view -hbS - > " + bam)
+### Concern
+Other version of BWA might output in BAM format.
+### Editor
+Ryan Chung, Cosbi Lab, NCKU EE.
