@@ -14,6 +14,9 @@ TOOL=$4
 # [site/region/up/abu]
 TYPE=$5
 
+# remove metadatas
+DEL_META=false
+
 # ===========================
 
 echo "Step0. chira"
@@ -21,7 +24,7 @@ cd chira
 REG=${REG%.*}.fa
 TAR=${TAR%.*}.fa
 # run.sh [fold_name] [regulator] [target] [thread] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
-#sh run.sh ${DATA} ${READ} ${REG} ${TAR} 8 12 6 4 18
+sh run.sh ${DATA} ${READ} ${REG} ${TAR} 8 12 6 4 18
 cd ..
 OUTPUT=chira/${DATA}_extract_dir/${DATA}.csv
 
@@ -31,7 +34,7 @@ echo "Step1. find deletion"
 cd find_deletion
 REG=${REG%.*}.csv
 TAR=${TAR%.*}.csv
-#sh run.sh ../${OUTPUT} ${TAR}
+sh run.sh ../${OUTPUT} ${TAR}
 cd ..
 OUTPUT=find_deletion/ALL_output/${DATA}_step1.csv
 
@@ -93,8 +96,6 @@ echo "Step7. collect files"
 cp ${OUTPUT} data/output/
 cp -r generate_figure/figure data/output/
 
-# remove metadatas
-DEL_META=false
 if [ $DEL_META = true ]
 then
     rm chira/${DATA}*
@@ -105,5 +106,4 @@ then
     rm data_processing/after_preprocess/${DATA}*
     rm ${OUTPUT}
 fi
-
 echo "Program complete successful."
