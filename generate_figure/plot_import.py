@@ -96,7 +96,7 @@ def U_test(x,y):
 args = get_args()
 inputname = args.inputname
 basename = args.basename
-nor_f = args.norm_factor
+nor_f = float(args.norm_factor)
 tool = args.tool
 
 mrna_275 = pd.read_csv('../data/reference/mRNA_WS275_WITHregion_v3.csv') 
