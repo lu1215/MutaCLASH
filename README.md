@@ -18,8 +18,8 @@ sh run.sh <input file> <regulator file> <transcript file> <algorithm> <enrichmen
 - **input file:** NGS data in fasta or csv format.
 - **regulator file**: regulator file in fasta or csv format.
 - **transcript file**: transcript file in fasta or csv format.
-- **algorithm**: Algorithm used to predict binding sites, which can be `pirScan/miRnada/RNAup`.
-- **enrichment analysis type**: Method used to analyze enrichment, which can be `region/site/up/abu` refers to "CLASH identified region", "pirScan binding site", "RNAup binding site", "mRNA abundance" (check more details about this in `pipeline/induce_22g/abu_data/`).
+- **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRnada, RNAup`.
+- **enrichment analysis type**: Method used to analyze enrichment, which can be `region, site, up, abu` refers to "CLASH identified region", "pirScan binding site", "RNAup binding site", "mRNA abundance" (check more details about this in `pipeline/induce_22g/abu_data/`).
 
 After executing the command, the pipeline will run and complete all the necessary steps.
 
