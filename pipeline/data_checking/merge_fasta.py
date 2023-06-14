@@ -1,3 +1,5 @@
+# This program is for merging read-count in FATSA file
+
 import argparse
 import pandas as pd
 
@@ -8,7 +10,7 @@ args = parser.parse_args()
 inputname = args.input
 outputname = args.output
 
-print('\n===============fasta_to_fasta.py===============')
+print('\n=================merge_fasta.py==================')
 print('Input file:\n{}'.format(inputname))
 print('Output file:\n{}'.format(outputname))
 print('=================================================')
