@@ -8,19 +8,21 @@ TAR=../../$3
 DATA=$(basename ${READ})
 DATA=${DATA%.*}
 
-# binding-site & enrichment analysis
-# [pirScan/miRnada/RNAup]
-TOOL=$4
-# [site/region/up/abu]
-TYPE=$5
-
 # remove metadatas
 DEL_META=false
 
 # ===========================
 
-echo "Step0. chira"
-cd pipeline/chira
+echo "Step0. data checking"
+cd pipeline/data_checking
+sh run.sh ${READ} ${REG} ${TAR}
+cd ..
+
+# --------------------------
+
+echo "Step1. chira"
+cd chira
+READ=${READ%.*}.fa
 REG=${REG%.*}.fa
 TAR=${TAR%.*}.fa
 # run.sh [fold_name] [regulator] [target] [thread] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
@@ -30,7 +32,7 @@ OUTPUT=chira/${DATA}_extract_dir/${DATA}.csv
 
 # --------------------------
 
-echo "Step1. find deletion"
+echo "Step2. find deletion"
 cd find_deletion
 REG=${REG%.*}.csv
 TAR=${TAR%.*}.csv
@@ -40,7 +42,7 @@ OUTPUT=find_deletion/ALL_output/${DATA}_step1.csv
 
 # --------------------------
 
-echo "Step2. predict site"
+echo "Step3. predict site"
 cd predict_site
 # [n/extend_length]
 EXTEND=n
@@ -52,7 +54,7 @@ cd ..
 
 # --------------------------
 
-echo "Step3. RNAup"
+echo "Step4. RNAup"
 cd RNAup
 sh run.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 OUTPUT=RNAup/RNAup_output/${DATA}_step1_scan_mir_RNAup.csv
@@ -60,7 +62,7 @@ cd ..
 
 # --------------------------
 
-echo "Step4. data processing"
+echo "Step5. data processing"
 cd data_processing
 sh run.sh ../${OUTPUT} ${TAR}
 OUTPUT=data_processing/after_preprocess/${DATA}_step1_scan_mir_RNAup_final.csv
@@ -68,10 +70,12 @@ cd ..
 
 # --------------------------
 
-echo "Step5. enrichment"
+echo "Step6. enrichment"
 cd induce_22g
 # [n/extend_length]
 EXTEND=25
+# [region/site/up/abu]
+TYPE=$5
 sh run.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND} ${TYPE}
 if [ $TYPE = "abu" ]
 then
@@ -83,8 +87,10 @@ cd ..
 
 # --------------------------
 
-echo "Step6. generate figure"
+echo "Step7. generate figure"
 cd generate_figure
+# [pirScan/miRnada/RNAup]
+TOOL=$4
 # normalization factor
 FACTOR=811.03
 sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${FACTOR}
@@ -92,7 +98,7 @@ cd ../../
 
 # --------------------------
 
-echo "Step7. collect files"
+echo "Step8. collect files"
 cp pipeline/${OUTPUT} data/output/
 cp -r pipeline/generate_figure/figure data/output/
 
