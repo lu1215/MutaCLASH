@@ -1,13 +1,11 @@
 # fold name
 F=$1
 # read
-f0=${2%.*}.fa
+f0=$2
 # regulator
 f1=$3
 # target
 f2=$4
-
-#python csv_to_fasta.py --inputname $2 --outputname $f0
 
 mkdir ${F}_map_dir
 mkdir ${F}_merge_dir
