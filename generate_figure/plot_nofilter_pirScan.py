@@ -43,7 +43,7 @@ for mut in ['D', 'M']:
     for split_data in [one_third_data, two_third_data, three_third_data]:
         sd += 1
         for rc_type in ['nor_readcount', 'nor_count']:
-            print(mut, sd, rc_type)
+            #print(mut, sd, rc_type)
             name_list = []
             rc_list = []
             pi_region = [[] for i in range(61)]
@@ -142,7 +142,7 @@ for mut in ['D', 'M']:
     for split_data in [one_third_data, two_third_data, three_third_data]:
         sd += 1
         for rc_type in ['nor_readcount', 'nor_count']:
-            print(mut, sd, rc_type)
+            #print(mut, sd, rc_type)
             d_acc_dict = {}
             acc_dict = {}
             data_acc = split_data.copy()
@@ -152,7 +152,7 @@ for mut in ['D', 'M']:
             per_data = data_acc[data_acc[mut].astype(str).isin(['[]'])]
             del_data.reset_index(drop=True, inplace=True)
             per_data.reset_index(drop=True, inplace=True)
-            print(len(per_data), len(del_data))
+            #print(len(per_data), len(del_data))
 
             a_list = []
             t_list = []
@@ -165,7 +165,7 @@ for mut in ['D', 'M']:
             dash_in_transcript = [0]*reg_seq_len
             num_in_this_pos = 0
             for i in range(len(per_data)):
-                print(i, end='\r')
+                #print(i, end='\r')
                 num_in_this_pos += 1
                 rc = per_data[rc_type][i] 
 
@@ -215,7 +215,7 @@ for mut in ['D', 'M']:
                 d_num_in_this_pos = 0
 
                 length = len(del_data)
-                print(pos, length, end='\r')
+                #print(pos, length, end='\r')
                 for i in range(length):
 
                     init_pos = int(del_data['pirscan_target_pos'][i].split('-')[0])

@@ -24,6 +24,7 @@ for i in trange(len(tmp)):
         elif m == 'C':
             c_num += rc
 total_num = a_num+t_num+c_num+g_num
+print('Without Mutation:')
 print('a: {}, t: {}, c: {}, g: {}'.format(round(a_num/total_num, 2), round(t_num/total_num, 2), round(c_num/total_num, 2), round(g_num/total_num, 2)))
 
 ## deletion
@@ -55,6 +56,7 @@ for i in trange(len(tmp)):
             #print(int(m)+1)
             
 total_num = a_num+t_num+c_num+g_num
+print("\nDeletion:")
 print('a: {}, t: {}, c: {}, g: {}'.format(round(a_num/total_num, 2), round(t_num/total_num, 2), round(c_num/total_num, 2), round(g_num/total_num, 2)))
 
 ## mismatch
@@ -139,6 +141,7 @@ t_total = ta_num+tc_num+tg_num
 g_total = ga_num+gt_num+gc_num
 c_total = ca_num+ct_num+cg_num
 
+print("\nSubstitution:")
 print('a: {}, at: {}, ac: {}, ag: {}'.format(round(a_num/total_num, 2),
                                          round(at_num/a_total, 2), round(ac_num/a_total, 2), round(ag_num/a_total, 2)))
 
