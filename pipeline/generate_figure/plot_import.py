@@ -29,7 +29,7 @@ def get_args():
     args = parser.parse_args()
     return args
 
-target = pd.read_excel('../data/reference/add_two_HCLee.RNAseq.master.xlsx')
+target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
 def add_two_mRNA_list(new,gene):
     if gene == 0:
         return new
@@ -99,7 +99,7 @@ basename = args.basename
 nor_f = float(args.norm_factor)
 tool = args.tool
 
-mrna_275 = pd.read_csv('../data/reference/mRNA_WS275_WITHregion_v3.csv') 
+mrna_275 = pd.read_csv('../../data/reference/mRNA_WS275_WITHregion_v3.csv') 
 mrna_275 = mrna_275[['Gene name', 'sequence', 'Gene ID']]
 mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
 

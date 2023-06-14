@@ -1,9 +1,9 @@
 # read path
-READ=../$1
+READ=../../$1
 # regulator path
-REG=../$2
+REG=../../$2
 # target path
-TAR=../$3
+TAR=../../$3
 # data base name
 DATA=$(basename ${READ})
 DATA=${DATA%.*}
@@ -20,7 +20,7 @@ DEL_META=false
 # ===========================
 
 echo "Step0. chira"
-cd chira
+cd pipeline/chira
 REG=${REG%.*}.fa
 TAR=${TAR%.*}.fa
 # run.sh [fold_name] [regulator] [target] [thread] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
@@ -88,22 +88,22 @@ cd generate_figure
 # normalization factor
 FACTOR=811.03
 sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${FACTOR}
-cd ..
+cd ../../
 
 # --------------------------
 
 echo "Step7. collect files"
-cp ${OUTPUT} data/output/
-cp -r generate_figure/figure data/output/
+cp pipeline/${OUTPUT} data/output/
+cp -r pipeline/generate_figure/figure data/output/
 
 if [ $DEL_META = true ]
 then
-    rm chira/${DATA}*
-    rm find_deletion/ALL_output/${DATA}*
-    rm predict_site/scan_output/${DATA}*
-    rm predict_site/mir_output/${DATA}*
-    rm RNAup/RNAup_output/${DATA}*
-    rm data_processing/after_preprocess/${DATA}*
-    rm ${OUTPUT}
+    rm pipeline/chira/${DATA}*
+    rm pipeline/find_deletion/ALL_output/${DATA}*
+    rm pipeline/predict_site/scan_output/${DATA}*
+    rm pipeline/predict_site/mir_output/${DATA}*
+    rm pipeline/RNAup/RNAup_output/${DATA}*
+    rm pipeline/data_processing/after_preprocess/${DATA}*
+    rm pipeline/${OUTPUT}
 fi
 echo "Program complete successful."
