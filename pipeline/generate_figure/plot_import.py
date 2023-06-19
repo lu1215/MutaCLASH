@@ -116,7 +116,7 @@ if tool=='pirScan':
     two_third = 0
     one_third = -15
     bot = -30
-elif tool=='miRnada':
+elif tool=='miRanda':
     score_type =  'mir_score'
     top = max(data[score_type])
     two_third = 140

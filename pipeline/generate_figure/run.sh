@@ -10,8 +10,8 @@ python plot_nofilter_basic.py ${ARGS} > log/${1}_info.log
 echo "plot CIMS"
 if [ $TOOL = "pirScan" ]; then
     python plot_nofilter_pirScan.py ${ARGS} > log/${1}_pirScan.log
-elif [ $TOOL = "miRnada" ]; then
-    python plot_nofilter_miRanda.py ${ARGS} > log/${1}_miRnada.log
+elif [ $TOOL = "miRanda" ]; then
+    python plot_nofilter_miRanda.py ${ARGS} > log/${1}_miRanda.log
 elif [ $TOOL = "RNAup" ]; then
     python plot_nofilter_RNAup.py ${ARGS} > log/${1}_RNAup.log
 fi
