@@ -433,7 +433,7 @@ for group in [1,2,8]:
             ax2.set_title('22G FOLD Change (without 0)',fontsize=12)
             ax2.tick_params(axis='x', labelsize=14)
             sns.boxplot(data=tmp, ax=ax2, showfliers=False, width=0.5, linewidth=1, showmeans=0,medianprops=dict(color='orange'),
-                             whis=1.5, boxprops = {'color':'black', 'facecolor':'pink', 'alpha':0.7}, whiskerprops={'linestyle':'--'})
+                             whis=1.5, boxprops = {'facecolor':'pink', 'alpha':0.7}, whiskerprops={'linestyle':'--'})
             for p in ax2.artists:
                 b, o, g, a = p.get_facecolor()
                 p.set_facecolor((b, o, g, 0.3))
