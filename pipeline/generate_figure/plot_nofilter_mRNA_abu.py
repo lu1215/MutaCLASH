@@ -14,7 +14,8 @@ alpha4 = find_alpha(data['wt.r1.rpkm'])
 alpha5 = find_alpha(data['wt.r2.rpkm'])
 alpha6 = find_alpha(data['wt.r3.rpkm'])
 alpha = min([alpha1, alpha2, alpha3, alpha4, alpha5, alpha6])
-print(alpha)
+print('alpha: {}'.format(alpha))
+
 data['alg1.r1.rpkm_alpha'] = [data['alg1.r1.rpkm'][i]+alpha for i in range(len(data))]
 data['alg1.r2.rpkm_alpha'] = [data['alg1.r2.rpkm'][i]+alpha for i in range(len(data))]
 data['alg1.r3.rpkm_alpha'] = [data['alg1.r3.rpkm'][i]+alpha for i in range(len(data))]
@@ -30,11 +31,9 @@ data['alg1_avg_rpkm_alpha'] = [data['alg1_avg_rpkm'][i]+alpha for i in range(len
 data['fold_change_avg'] = [math.log(data['alg1_avg_rpkm_alpha'][i]/data['wt_avg_rpkm_alpha'][i], 2) for i in range(len(data))]
 
 data['fold_change1'] = [math.log(data['alg1.r1.rpkm_alpha'][i]/data['wt.r1.rpkm_alpha'][i], 2) for i in range(len(data))]
-print(len(data))
 data['fold_change2'] = [math.log(data['alg1.r2.rpkm_alpha'][i]/data['wt.r2.rpkm_alpha'][i], 2) for i in range(len(data))]
-print(len(data))
 data['fold_change3'] = [math.log(data['alg1.r3.rpkm_alpha'][i]/data['wt.r3.rpkm_alpha'][i], 2) for i in range(len(data))]
-print(len(data))
+print('number: {}'.format(len(data)))
 
 x1 = [n for n in data['alg1.r1.rpkm']]
 y1 = [n for n in data['wt.r1.rpkm']]
@@ -44,8 +43,10 @@ for i,j in zip(x1, y1):
         no_0_list.append(math.log(i/j, 2))
     else:
         no_0_list.append("NULL")
-print(len(no_0_list))
 data['fold_change1_without0'] = no_0_list
+tmp_list = no_0_list.copy()
+tmp_list.remove("NULL")
+print('number of fold-change1 (without0): {}'.format(len(tmp_list)))
 
 x1 = [n for n in data['alg1.r2.rpkm']]
 y1 = [n for n in data['wt.r2.rpkm']]
@@ -55,8 +56,10 @@ for i,j in zip(x1, y1):
         no_0_list.append(math.log(i/j, 2))
     else:
         no_0_list.append("NULL")
-print(len(no_0_list))
 data['fold_change2_without0'] = no_0_list
+tmp_list = no_0_list.copy()
+tmp_list.remove("NULL")
+print('number of fold-change2 (without0): {}'.format(len(tmp_list)))
 
 x1 = [n for n in data['alg1.r3.rpkm']]
 y1 = [n for n in data['wt.r3.rpkm']]
@@ -66,8 +69,10 @@ for i,j in zip(x1, y1):
         no_0_list.append(math.log(i/j, 2))
     else:
         no_0_list.append("NULL")
-print(len(no_0_list))
 data['fold_change3_without0'] = no_0_list
+tmp_list = no_0_list.copy()
+tmp_list.remove("NULL")
+print('number of fold-change3 (without0): {}'.format(len(tmp_list)))
 
 x1 = [n for n in data['alg1_avg_rpkm']]
 y1 = [n for n in data['wt_avg_rpkm']]
@@ -77,8 +82,10 @@ for i,j in zip(x1, y1):
         no_0_list.append(math.log(i/j, 2))
     else:
         no_0_list.append("NULL")
-print(len(no_0_list))
 data['fold_change_avg_without0'] = no_0_list
+tmp_list = no_0_list.copy()
+tmp_list.remove("NULL")
+print('number of average fold-change (without0): {}\n'.format(len(tmp_list)))
 
 # mRNA abundance fold change
 dn_list = ['all data', 'high score', 'middle score', 'low score']

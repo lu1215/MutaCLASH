@@ -8,11 +8,13 @@ print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 alpha1 = find_alpha(data['22G_rc_WT'])
 alpha2 = find_alpha(data['22G_rc_MUT'])
 alpha = min([alpha1, alpha2])
-print(alpha)
+print('alpha: {}'.format(alpha))
+
 data['22G_rc_WT_alpha'] = [data['22G_rc_WT'][i]+alpha for i in range(len(data))]
 data['22G_rc_MUT_alpha'] = [data['22G_rc_MUT'][i]+alpha for i in range(len(data))]
 data['fold_change'] = [math.log(data['22G_rc_MUT_alpha'][i]/data['22G_rc_WT_alpha'][i], 2) for i in range(len(data))]
-print(len(data))
+print('number: {}'.format(len(data)))
+
 x1 = [n for n in data['22G_rc_MUT']]
 y1 = [n for n in data['22G_rc_WT']]
 no_0_list = []
@@ -21,8 +23,10 @@ for i,j in zip(x1, y1):
         no_0_list.append(math.log(i/j, 2))
     else:
         no_0_list.append("NULL")
-print(len(no_0_list))
 data['fold_change_without0'] = no_0_list
+tmp_list = no_0_list.copy()
+tmp_list.remove("NULL")
+print('number (without0): {}\n'.format(len(tmp_list)))
 
 # 22G read count 分布
 
