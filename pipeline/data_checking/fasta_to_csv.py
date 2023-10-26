@@ -18,6 +18,8 @@ print('=================================================')
 
 name = []
 seq = []
+col = []
+
 with open(inputname, 'r') as f:
     lines = f.read().splitlines()
     for line in lines:
@@ -35,7 +37,7 @@ else:
     sys.exit(1)
 
 data = pd.DataFrame(zip(name,seq), columns=col)
-data = data.sort_values(by='regulator_name')
+data = data.sort_values(by=col[0])
 data.to_csv(outputname, index=False)
 
 #print('Program end with success.\n')
