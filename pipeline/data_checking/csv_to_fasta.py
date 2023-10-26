@@ -18,17 +18,16 @@ print('=================================================')
 data = pd.read_csv(inputname)
 
 if typename=='input':
-    data = data[['sequence', 'read_count']]
-    with open(outputname, 'w') as f:
-        for i in range(len(data)):
-            f.writelines('>'+str(i)+'_'+str(data['read_count'][i])+'\n')
-            f.writelines(data['sequence'][i]+'\n')
+    data['id'] = '>' + data.index.astype(str) + '_' + data['read_count'].astype(str)
 
-elif typename=='reference':
-    data = data[['regulator_name', 'raw_regulator_seq']]
-    with open(outputname, 'w') as f:
-        for i in range(len(data)):
-            f.writelines('>'+str(data['regulator_name'][i])+'\n')
-            f.writelines(data['raw_regulator_seq'][i]+'\n')
+elif typename=='regulator':
+    data['id'] = '>' + data['regulator_name']
+    data['sequence'] = data['raw_regulator_seq']
+
+elif typename=='transcript':
+    data['id'] = '>' + data['Gene name']
+
+data = data[['id','sequence']]
+data.to_csv(outputname, sep='\n', index=False, header=False)
 
 #print('Program end with success.\n')

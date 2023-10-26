@@ -1,12 +1,15 @@
 import argparse
 import pandas as pd
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", help="input filename", type=str)
 parser.add_argument("--output", help="output filename", type=str)
+parser.add_argument("--type", help="input or reference", type=str)
 args = parser.parse_args()
 inputname = args.input
 outputname = args.output
+typename = args.type
 
 print('\n=================fasta_to_csv.py=================')
 print('Input file:\n{}'.format(inputname))
@@ -23,7 +26,15 @@ with open(inputname, 'r') as f:
         else:
             seq.append(line)
 
-data = pd.DataFrame(zip(name,seq), columns=['regulator_name','raw_regulator_seq'])
+if typename=='regulator':
+    col = ['regulator_name','raw_regulator_seq']
+elif typename=='transcript':
+    col = ['Gene name','sequence']
+else:
+    print('[Error] Unknown type: {}'.format(typename))
+    sys.exit(1)
+
+data = pd.DataFrame(zip(name,seq), columns=col)
 data = data.sort_values(by='regulator_name')
 data.to_csv(outputname, index=False)
 
