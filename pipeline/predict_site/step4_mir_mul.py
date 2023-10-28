@@ -201,7 +201,7 @@ for k in range(len(d)):
 
 data_mir = pd.DataFrame.from_dict(b, orient='index', columns=['idx', 'mir_energy', 'mir_score', 'mir_target_pos', 'mir_transcript_seq', 'mir_regulator_seq'])     
 data_mir = data_mir.reset_index()
-data2 = data2.drop(columns=['Gene ID','sequence','mrna21'])
+data2 = data2.drop(columns=['sequence','mrna21'])
 data2 = pd.merge(data2, data_mir, on='idx', how='inner')
 
 data2.to_csv('mir_output/'+outputname, index=False)

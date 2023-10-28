@@ -10,11 +10,14 @@ args = parser.parse_args()
 inputname = args.inputname
 trans = args.trans
 mrna_275 = pd.read_csv(trans) 
-mrna_275 = mrna_275[['Gene name', 'sequence', 'Gene ID']]
+mrna_275 = mrna_275[['Gene name', 'sequence']]
 try:
     mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
 except:
-    print('no Gene ID')
+    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
+    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
+    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
+
 data = pd.read_csv('tmp/{}'.format(inputname), low_memory=False)
 data = pd.merge(data, mrna_275, left_on='transcript_name', right_on='Gene name', how='inner')
 
