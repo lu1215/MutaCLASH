@@ -213,6 +213,6 @@ for k in range(len(d)):
 data_up = pd.DataFrame.from_dict(b, orient='index', columns=['idx', 'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score'])
 data_up = data_up.reset_index()
 data = pd.merge(data, data_up, on='idx', how='inner')
-data.to_csv('RNAup_output/'+outputname, index=False)
+data.to_csv('up_output/'+outputname, index=False)
 stop = time.time()
 print('{} m'.format((stop - start)/60))

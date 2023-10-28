@@ -1,6 +1,6 @@
 import os
 
-PATH = 'figure'
+PATH = ['figure','log']
 
 def get_img(path):
     img_list = []
@@ -10,6 +10,7 @@ def get_img(path):
     return img_list
 
 # remove all files in folders
-img_lst = get_img(PATH)
-for img in img_lst:
-    os.remove(img)
+for folder in PATH:
+    img_lst = get_img(folder)
+    for img in img_lst:
+        os.remove(img)
