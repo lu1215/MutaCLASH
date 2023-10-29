@@ -127,7 +127,7 @@ touch ${cmd_log}
 echo Read File: $1 >> ${cmd_log}
 echo Regulator File: $2 >> ${cmd_log}
 echo Transcript File: $3 >> ${cmd_log}
-echp Algorithm: $4 >> ${cmd_log}
+echo Algorithm: $4 >> ${cmd_log}
 echo Enrichment Analysis Type: $5 >> ${cmd_log}
 
 if [ $DEL_META = true ]
