@@ -342,10 +342,10 @@ for group in group_list:
         w = 0
         for w0 in ['fold_change_avg', 'fold_change_avg_without0']:
             if w == 0:
-                w_n = '_with0'
+                w_n = 'with0'
                 w += 1
             elif w == 1:
-                w_n = '_without0'
+                w_n = 'without0'
             print(group, mut, w_n)
             rc_list_mut = []
             rc_list_no = []
