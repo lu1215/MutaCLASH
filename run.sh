@@ -122,7 +122,7 @@ mkdir data/output/${DIR}
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
 cp -r pipeline/generate_figure/figure data/output/${DIR}/
 cp -r pipeline/generate_figure/log data/output/${DIR}/
-cmd_log=data/output/${DIR}/log/command.log
+cmd_log=data/output/${DIR}/log/${DATA}_command.log
 touch ${cmd_log}
 echo Read File: $1 >> ${cmd_log}
 echo Regulator File: $2 >> ${cmd_log}
