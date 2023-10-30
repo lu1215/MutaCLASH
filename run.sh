@@ -110,7 +110,7 @@ TOOL=$4
 # normalization factor
 FACTOR=811.03
 # >>>
-sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${FACTOR}
+sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${FACTOR} ${TAR}
 # >>>
 cd ../../
 
