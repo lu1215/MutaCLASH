@@ -1,6 +1,6 @@
 TOOL=$3
 TYPE=$4
-ARGS="--basename $1 --inputname $2 --tool $3 --norm_factor $5"
+ARGS="--basename $1 --inputname $2 --tool $3 --norm_factor $5 --trans $6"
 
 python rm_fig.py
 

@@ -24,6 +24,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--basename", help="type base dataname", type=str)
     parser.add_argument("--inputname", help="type input filename", type=str)
+    parser.add_argument("--trans", help="type trans data", type=str)
     parser.add_argument("--norm_factor", help="type base dataname", type=str)
     parser.add_argument("--tool", help="type base dataname", type=str)
     args = parser.parse_args()
@@ -94,14 +95,23 @@ def U_test(x,y):
     return [two_sided, greater, less]
 
 args = get_args()
-inputname = args.inputname
 basename = args.basename
+inputname = args.inputname
+trans = args.trans
 nor_f = float(args.norm_factor)
 tool = args.tool
 
-mrna_275 = pd.read_csv('../../data/reference/mRNA_WS275_WITHregion_v3.csv') 
-mrna_275 = mrna_275[['Gene name', 'sequence', 'Gene ID']]
-mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+#mrna_275 = pd.read_csv('../../data/reference/mRNA_WS275_WITHregion_v3.csv') 
+#mrna_275 = mrna_275[['Gene name', 'sequence', 'Gene ID']]
+#mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+mrna_275 = pd.read_csv(trans) 
+mrna_275 = mrna_275[['Gene name', 'sequence']]
+try:
+    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+except:
+    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
+    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
+    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
 
 ## Load Data
 data = pd.read_csv(inputname)

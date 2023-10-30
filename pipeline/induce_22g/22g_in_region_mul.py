@@ -198,6 +198,7 @@ if region_type == 'up':
     print((stop-start)/60)
     #print(data.head())
     data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+
 if region_type == 'mir':
     start = time.time()
     print(region_type)

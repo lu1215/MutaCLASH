@@ -923,7 +923,8 @@ for group in group_list:
             gc.collect()
 '''
 
-# per score (只分成10等分，一張圖呈現)
+# per score
+# 每五分數區間，目前只有 pirScan targeting score
 score_range = [top, bot]
 per_score = (top-bot)/10
 #print(per_score)
