@@ -11,6 +11,9 @@ DATA=${DATA%.*}
 # remove metadatas
 DEL_META=false
 
+# single or chimeras
+HYBRID=chimeras
+
 # ===========================
 
 echo "Step1. data checking"
@@ -29,19 +32,24 @@ REG=${REG%.*}.fa
 TAR=${TAR%.*}.fa
 # run.sh [fold_name] [regulator] [target] [thread(8)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
 # >>>
-sh run.sh ${DATA} ${READ} ${REG} ${TAR} 8 12 6 4 18
+sh run.sh ${DATA} ${READ} ${REG} ${TAR} ${HYBRID} 8 12 6 4 18
 # >>>
 cd ..
-OUTPUT=chira/${DATA}_extract_dir/${DATA}.csv
+BWA_OUTPUT=chira/${DATA}_map_dir/sorted.bam
+OUTPUT=chira/${DATA}_extract_dir/${DATA}_${HYBRID}.csv
 
 # --------------------------
 
 echo "Step3. find deletion"
 cd find_deletion
-REG=${REG%.*}.csv
-TAR=${TAR%.*}.csv
+
+# Bowtie2 (v1)
+# TAR=${TAR%.*}.csv
+# sh run.sh ../${OUTPUT} ${TAR}
+
+# Samtool (v2) > recommend!
 # >>>
-sh run.sh ../${OUTPUT} ${TAR}
+sh run_v2.sh ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR}
 # >>>
 cd ..
 OUTPUT=find_deletion/ALL_output/${DATA}_step1.csv
@@ -50,6 +58,8 @@ OUTPUT=find_deletion/ALL_output/${DATA}_step1.csv
 
 echo "Step4. predict site"
 cd predict_site
+REG=${REG%.*}.csv
+TAR=${TAR%.*}.csv
 # [n/extend_length]
 EXTEND=n
 
@@ -108,9 +118,9 @@ cd generate_figure
 # [pirScan/miRanda/RNAup]
 TOOL=$4
 # normalization factor
-FACTOR=811.03
+G22_FACTOR=811.03  # WAGO-1_IP WT
 # >>>
-sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${FACTOR} ${TAR}
+sh run.sh ${DATA} ../${OUTPUT} ${TOOL} ${TYPE} ${G22_FACTOR} ${TAR}
 # >>>
 cd ../../
 
