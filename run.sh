@@ -30,7 +30,7 @@ cd chira
 READ=${READ%.*}.fa
 REG=${REG%.*}.fa
 TAR=${TAR%.*}.fa
-# run.sh [fold_name] [regulator] [target] [thread(8)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
+# run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(8)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
 # >>>
 sh run.sh ${DATA} ${READ} ${REG} ${TAR} ${HYBRID} 8 12 6 4 18
 # >>>
@@ -94,7 +94,7 @@ cd ..
 
 # --------------------------
 
-echo "Step6. enrichment"
+echo "Step6. abundance"
 cd induce_22g
 # [n/extend_length]
 EXTEND=25
