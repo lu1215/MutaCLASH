@@ -95,19 +95,25 @@ cd ..
 # --------------------------
 
 echo "Step6. abundance"
-cd induce_22g
+cd add_abundance
 # [n/extend_length]
 EXTEND=25
 # [region/site/up/abu]
-TYPE=$5
+if [ -n "$5" ]
+then
+    TYPE=$5
+else
+    TYPE=none
+fi
 # >>>
 sh run.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND} ${TYPE}
 # >>>
 if [ $TYPE = "abu" ]
 then
-    OUTPUT=induce_22g/add_abu_info/abu_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
-else
-    OUTPUT=induce_22g/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
+    OUTPUT=add_abundance/add_abu_info/abu_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
+elif [ $TYPE = "region" ] || [ $TYPE = "site" ] || [ $TYPE = "up" ]
+then
+    OUTPUT=add_abundance/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
 fi
 cd ..
 
@@ -138,7 +144,7 @@ echo Read File: $1 >> ${cmd_log}
 echo Regulator File: $2 >> ${cmd_log}
 echo Transcript File: $3 >> ${cmd_log}
 echo Algorithm: $4 >> ${cmd_log}
-echo Enrichment Analysis Type: $5 >> ${cmd_log}
+echo Abundance Analysis Type: $5 >> ${cmd_log}
 
 if [ $DEL_META = true ]
 then
@@ -150,4 +156,4 @@ then
     rm pipeline/data_processing/after_preprocess/${DATA}*
     rm pipeline/${OUTPUT}
 fi
-echo "Program complete successful."
+echo "Program complete successfully."

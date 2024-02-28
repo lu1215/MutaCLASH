@@ -19,7 +19,7 @@ sh run.sh <input file> <regulator file> <transcript file> <algorithm> <abundance
 - **regulator file**: regulator file in FASTA or CSV format.
 - **transcript file**: transcript file in FASTA or CSV format.
 - **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
-- **abundance analysis type**: Method used to analyze abundance, which can be `region, site, up, abu` refers to "CLASH identified region", "pirScan binding site", "RNAup binding site", "mRNA abundance" (check more details about this in `pipeline/induce_22g/abu_data/`).
+- **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
 
 After executing the command, the pipeline will run and complete all the necessary steps.
 
