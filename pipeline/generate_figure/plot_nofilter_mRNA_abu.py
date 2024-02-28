@@ -4,6 +4,16 @@ print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 
+# Gene List
+title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
+target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
+try:
+    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+except:
+    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
+    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
+    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
+
 # fold change
 data = data.fillna(0)
 
@@ -106,7 +116,7 @@ for group in [0]:
             ## compare with all mutation (contorol group)
             print('======= compare with all mutation =======')
             # split group
-            ana_data = add_two_mRNA_list(data, group)
+            ana_data = add_two_mRNA_list(data, target, group)
             no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
             del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
             ## 無突變資料中將突變資料的 transcript去除 (看有沒有需要)
@@ -210,7 +220,7 @@ for group in [0]:
                 #print(text)
                 ax2.text(1.6,0,text,fontsize=14, verticalalignment='baseline')
                 plt.tight_layout()
-                plt.savefig('figure/abu_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, d_n, score_type))
+                plt.savefig('figure/abu_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
                 plt.clf()
                 plt.close()
                 gc.collect()
@@ -239,7 +249,7 @@ for group in [0]:
             ## compare with all mutation (contorol group)
             print('======= compare with all mutation =======')
             # split group
-            ana_data = add_two_mRNA_list(data, group)
+            ana_data = add_two_mRNA_list(data, target, group)
             no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
             del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
             ## 無突變資料中將突變資料的 transcript去除 (看有沒有需要)
@@ -361,7 +371,7 @@ for group in group_list:
                 s2 = int(s1-per_score)
                 tmp = t[t[score_type] <= s1]
                 tmp = tmp[tmp[score_type] > s2]
-                ana_data = add_two_mRNA_list(tmp, group)
+                ana_data = add_two_mRNA_list(tmp, target, group)
                 no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
                 del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])]
                 ## 無突變資料中將突變資料的 transcript去除 (看有沒有需要)

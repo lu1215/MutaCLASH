@@ -154,7 +154,6 @@ print('c: {}, ca: {}, ct: {}, cg: {}'.format(round(c_num/total_num, 2),
 print('g: {}, ga: {}, gt: {}, gc: {}'.format(round(g_num/total_num, 2),
                                          round(ga_num/g_total, 2), round(gt_num/g_total, 2), round(gc_num/g_total, 2)))
 
-#data = data.drop(columns=['Gene name', 'sequence', 'Gene ID'])
 del datax
 
 ## mutation存在方式

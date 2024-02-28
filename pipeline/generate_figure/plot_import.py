@@ -30,15 +30,14 @@ def get_args():
     args = parser.parse_args()
     return args
 
-target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
-def add_two_mRNA_list(new,gene):
+def add_two_mRNA_list(new, target, gene):
     if gene == 0:
         return new
-    elif gene == 1:
+    elif gene == 1: # CSR-1 target
         csr1 = target[target['CSR1IP.N2__N2']==True].reset_index(drop=True) 
-    elif gene == 2:
+    elif gene == 2: # WAGO-1 target
         csr1 = target[target['WAGO1IP__WAGO1Input']==True].reset_index(drop=True)
-    elif gene == 8:
+    elif gene == 8: # Germline target
         csr1 = target[target['ce.germline.genes.Ortiz.G3_2014.type'].notnull()].reset_index(drop=True)
         
     tmp1 = new[new['Gene ID'].isin(list(csr1['row_names']))].reset_index(drop=True)
@@ -101,24 +100,13 @@ trans = args.trans
 nor_f = float(args.norm_factor)
 tool = args.tool
 
-#mrna_275 = pd.read_csv('../../data/reference/mRNA_WS275_WITHregion_v3.csv') 
-#mrna_275 = mrna_275[['Gene name', 'sequence', 'Gene ID']]
-#mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+## load data
+d_name = basename
+data = pd.read_csv(inputname)
 mrna_275 = pd.read_csv(trans) 
 mrna_275 = mrna_275[['Gene name', 'sequence']]
-try:
-    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
-except:
-    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
-    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
-    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
-
-## Load Data
-data = pd.read_csv(inputname)
-d_name = basename
 
 ## user defined
-title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
 if tool=='pirScan':
     # targeting_score, mir_score, RNAup_score
     score_type =  'targeting_score'

@@ -4,6 +4,16 @@ print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 
+# Gene List
+title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
+target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
+try:
+    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+except:
+    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
+    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
+    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
+
 # fold change 欄位
 alpha1 = find_alpha(data['22G_rc_WT'])
 alpha2 = find_alpha(data['22G_rc_MUT'])
@@ -44,7 +54,7 @@ for group in [1,2,8]:
 #         # compare with deletion/mismatch (control group)
 #         print('======= compare with all deletion/mismatch =======')
 #         # split group
-#         ana_data = add_two_mRNA_list(data, group)
+#         ana_data = add_two_mRNA_list(data, target, group)
 #         no_del_clash_result = ana_data[ana_data[mut].astype(str).isin(['[]'])]
 #         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
 #         print(len(del_clash_result), len(no_del_clash_result))
@@ -124,7 +134,7 @@ for group in [1,2,8]:
         ## compare with all mutation (contorol group)
         print('======= compare with all mutation =======')
         # split group
-        ana_data = add_two_mRNA_list(data, group)
+        ana_data =  add_two_mRNA_list(data, target, group)
         no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
         print(len(del_clash_result), len(no_del_clash_result))
@@ -192,7 +202,7 @@ for group in [1,2,8]:
             text = 'U test: {} > {}: {}'.format(mut_n, 'com',U_m)+'\nU test: {} < {}: {}'.format(mut_n, 'com', U_c,)+'\n-----------------------------------------\nT test: {} > {}: {}'.format(mut_n, 'com', T_m)+'\nT test: {} < {}: {}'.format(mut_n, 'com', T_c)+'\n-----------------------------------------\nKS test: {} > {}: {}'.format(mut_n, 'com', KS_m)+'\nKS test: {} < {}: {}'.format(mut_n, 'com', KS_c)
             #print(text)
             plt.text(1.6,0,text,fontsize=14)
-            plt.savefig('figure/G22_plot/22G/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, d_n, score_type), bbox_inches='tight')
+            plt.savefig('figure/G22_plot/22G/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type), bbox_inches='tight')
             plt.clf()
             plt.close()
             gc.collect()
@@ -218,7 +228,7 @@ for group in [1,2,8]:
 #         # compare with deletion/mismatch (control group)
 #         print('======= compare with all deletion/mismatch =======')
 #         # split group
-#         ana_data = add_two_mRNA_list(data, group)
+#         ana_data =  add_two_mRNA_list(data, target, group)
 #         no_del_clash_result = ana_data[ana_data[mut].astype(str).isin(['[]'])]
 #         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
 #         print(len(del_clash_result), len(no_del_clash_result))
@@ -331,7 +341,7 @@ for group in [1,2,8]:
         ## compare with all mutation (contorol group)
         print('======= compare with all mutation =======')
         # split group
-        ana_data = add_two_mRNA_list(data, group)
+        ana_data =  add_two_mRNA_list(data, target, group)
         no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
         print(len(del_clash_result), len(no_del_clash_result))
@@ -432,7 +442,7 @@ for group in [1,2,8]:
             #print(text)
             ax2.text(1.6,0,text,fontsize=14, verticalalignment='top')
             plt.tight_layout()
-            plt.savefig('figure/G22_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, d_n, score_type))
+            plt.savefig('figure/G22_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -459,7 +469,7 @@ for group in [1,2,8]:
 #         print('======= compare with all deletion/mismatch =======')
 #         # split group
 
-#         ana_data = add_two_mRNA_list(data_t, group)
+#         ana_data = add_two_mRNA_list(data_t, target, group)
 #         no_del_clash_result = ana_data[ana_data[mut].astype(str).isin(['[]'])]
 #         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
 #         print(len(del_clash_result), len(no_del_clash_result))
@@ -553,7 +563,7 @@ for group in [1,2,8]:
         ## compare with all mutation (contorol group)
         print('======= compare with all mutation =======')
         # split group
-        ana_data = add_two_mRNA_list(data_t, group)
+        ana_data = add_two_mRNA_list(data_t, target, group)
         no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
         print(len(del_clash_result), len(no_del_clash_result))
@@ -636,7 +646,7 @@ for group in [1,2,8]:
             ax2.set_title('targeting score CDF\n'+text,fontsize=12)
             plt.tight_layout()
             
-            plt.savefig('figure/G22_plot/22G_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, d_n, score_type))
+            plt.savefig('figure/G22_plot/22G_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -662,7 +672,7 @@ for group in [1,2,8]:
 #         # compare with deletion/mismatch (control group)
 #         print('======= compare with all deletion/mismatch =======')
 #         # split group
-#         ana_data = add_two_mRNA_list(data, group)
+#         ana_data =  add_two_mRNA_list(data, target, group)
 #         no_del_clash_result = ana_data[ana_data[mut].astype(str).isin(['[]'])]
 #         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
 #         print(len(del_clash_result), len(no_del_clash_result))
@@ -753,7 +763,7 @@ for group in [1,2,8]:
         ## compare with all mutation (contorol group)
         print('======= compare with all mutation =======')
         # split group
-        ana_data = add_two_mRNA_list(data, group)
+        ana_data =  add_two_mRNA_list(data, target, group)
         no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
         del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])] 
         print(len(del_clash_result), len(no_del_clash_result))
@@ -835,7 +845,7 @@ for group in [1,2,8]:
             ax2.set_title('22G FOLD Change (without 0)\n'+text,fontsize=12)
             ax2.axvline(x=0, c='k', linestyle='dashed', linewidth=0.5)
             plt.tight_layout()
-            plt.savefig('figure/G22_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, d_n, score_type))
+            plt.savefig('figure/G22_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -870,7 +880,7 @@ for group in group_list:
                     ss = s1 - 0.5*s2
                     tmp = t[t['targeting_score'] == ss]
                     tmp['22G_rc_WT'] = [n/nor_f for n in tmp['22G_rc_WT']]
-                    ana_data = add_two_mRNA_list(tmp, group)
+                    ana_data = add_two_mRNA_list(tmp, target, group)
                     no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
                     del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])]
                     x = no_del_clash_result['22G_rc_WT']
@@ -949,7 +959,7 @@ for group in group_list:
             tmp = t[t[score_type] <= s1]
             tmp = tmp[tmp[score_type] > s2]
             tmp['22G_rc_WT'] = [n/nor_f for n in tmp['22G_rc_WT']]
-            ana_data = add_two_mRNA_list(tmp, group)
+            ana_data = add_two_mRNA_list(tmp, target, group)
             no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
             del_clash_result = ana_data[~ana_data[mut].astype(str).isin(['[]'])]
             x = no_del_clash_result['22G_rc_WT']

@@ -11,13 +11,6 @@ inputname = args.inputname
 trans = args.trans
 mrna_275 = pd.read_csv(trans) 
 mrna_275 = mrna_275[['Gene name', 'sequence']]
-try:
-    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
-except:
-    print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
-    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
-    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
-
 data = pd.read_csv('tmp/{}'.format(inputname), low_memory=False)
 data = pd.merge(data, mrna_275, left_on='transcript_name', right_on='Gene name', how='inner')
 
@@ -27,17 +20,16 @@ try:
              'raw_regulator_seq', 'idx', 'read_count', 'hybrid0', 'D', 'M',
              'count', 'nor_readcount', 'nor_count', 'overlap','mir_init_pos', 'mir_end_pos','mir_energy',
              'mir_score', 'mir_target_pos', 'mir_transcript_seq', 'mir_regulator_seq','up_init_pos', 'up_end_pos',
-             'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence', 'Gene ID']]
+             'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence']]
 except:
     print('no pirscan1')
     data = data[['hybrid_seq', 'transcript_name', 'regulator_name', 'rem_tran_target_pos', 'remain_pos', 'on_reg_pos',
            'reg_hyb_target_pos', 'remain_seq', 'regulator_seq', 'idx', 'read_count', 'hybrid0', 'D', 'M',
            'count', 'nor_readcount', 'nor_count', 'overlap','mir_init_pos', 'mir_end_pos','mir_energy',
            'mir_score', 'mir_target_pos', 'mir_transcript_seq', 'mir_regulator_seq','up_init_pos', 'up_end_pos',
-           'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence', 'Gene ID']]
+           'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence']]
 
 data.reset_index(drop=True, inplace=True)
-#data = data[:10000]
 tmp_list = []
 tmp2_list = []
 tmp3_list = []

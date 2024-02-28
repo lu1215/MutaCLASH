@@ -16,9 +16,9 @@ elif [ $TOOL = "RNAup" ]; then
     python plot_nofilter_RNAup.py ${ARGS} > log/${1}_RNAup.log
 fi
 
-echo "plot enrichment"
+echo "plot abundance"
 if [ $TYPE = "abu" ]; then
-    python plot_nofilter_mRNA_abu.py ${ARGS} > log/${1}_enrichment.log
-else
-    python plot_nofilter_22G_abu.py ${ARGS} > log/${1}_enrichment.log
+    python plot_nofilter_mRNA_abu.py ${ARGS} > log/${1}_abundance.log
+elif [ $TYPE = "region" ] || [ $TYPE = "site" ] || [ $TYPE = "up" ]; then
+    python plot_nofilter_22G_abu.py ${ARGS} > log/${1}_abundance.log
 fi
