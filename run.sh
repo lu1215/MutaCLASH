@@ -52,7 +52,7 @@ cd find_deletion
 sh run_v2.sh ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR}
 # >>>
 cd ..
-OUTPUT=find_deletion/ALL_output/${DATA}_step1.csv
+OUTPUT=find_deletion/ALL_output/${DATA}_${HYBRID}_step1.csv
 
 # --------------------------
 
@@ -67,19 +67,19 @@ EXTEND=n
 # >>>
 sh run_pirScan.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
-OUTPUT=predict_site/scan_output/${DATA}_step1_scan.csv
+OUTPUT=predict_site/scan_output/${DATA}_${HYBRID}_step1_scan.csv
 
 # miRanda
 # >>>
 sh run_miRanda.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
-OUTPUT=predict_site/mir_output/${DATA}_step1_scan_mir.csv
+OUTPUT=predict_site/mir_output/${DATA}_${HYBRID}_step1_scan_mir.csv
 
 # RNAup
 # >>>
 sh run_RNAup.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
-OUTPUT=predict_site/up_output/${DATA}_step1_scan_mir_RNAup.csv
+OUTPUT=predict_site/up_output/${DATA}_${HYBRID}_step1_scan_mir_RNAup.csv
 cd ..
 
 # --------------------------
@@ -89,12 +89,12 @@ cd data_processing
 # >>>
 sh run.sh ../${OUTPUT} ${TAR}
 # >>>
-OUTPUT=data_processing/after_preprocess/${DATA}_step1_scan_mir_RNAup_final.csv
+OUTPUT=data_processing/after_preprocess/${DATA}_${HYBRID}_step1_scan_mir_RNAup_final.csv
 cd ..
 
 # --------------------------
 
-echo "Step6. abundance"
+echo "Step6. add abundance"
 cd add_abundance
 # [n/extend_length]
 EXTEND=25
@@ -110,10 +110,10 @@ sh run.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND} ${TYPE}
 # >>>
 if [ $TYPE = "abu" ]
 then
-    OUTPUT=add_abundance/add_abu_info/abu_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
+    OUTPUT=add_abundance/add_abu_info/abu_${EXTEND}_${DATA}_${HYBRID}_step1_scan_mir_RNAup_final.csv
 elif [ $TYPE = "region" ] || [ $TYPE = "site" ] || [ $TYPE = "up" ]
 then
-    OUTPUT=add_abundance/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}_step1_scan_mir_RNAup_final.csv
+    OUTPUT=add_abundance/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}_${HYBRID}_step1_scan_mir_RNAup_final.csv
 fi
 cd ..
 
@@ -156,4 +156,6 @@ then
     rm pipeline/data_processing/after_preprocess/${DATA}*
     rm pipeline/${OUTPUT}
 fi
+
+echo Output: data/output/${DIR}
 echo "Program complete successfully."
