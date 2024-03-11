@@ -8,11 +8,12 @@ print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
 target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
 try:
-    mrna_275['Gene ID'] = mrna_275['Gene ID'].apply(lambda x:x.split('=')[1])
+    data['Gene ID'] = data['Gene ID'].apply(lambda x:x.split('=')[1])
 except:
     print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
-    mrna_275_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
-    mrna_275 = pd.merge(mrna_275, mrna_275_id, on='Gene name', how='inner')
+    data_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
+    data_id = data_id.rename(columns={'Gene name':'transcript_name'})
+    data = pd.merge(data, data_id, on='transcript_name', how='inner')
 
 # fold change
 data = data.fillna(0)

@@ -19,7 +19,7 @@ sam_dict = {
     0: 'read_id',    # Query template NAME
     1: 'flag',       # bitwise FLAG
     2: 'ref_id',     # References sequence NAME
-    3: 'target_pos',  # 1-based leftmost mapping POSition
+    3: 'target_pos', # 1-based leftmost mapping POSition
     4: 'score',      # MAPping Quality
     5: 'CIGAR',      # CIGAR string
     6: 'RNEXT',      # Ref. name of the mate/next read
@@ -36,9 +36,7 @@ sam_dict = {
 cols = [0, 2, 3, 5, 9, 14, 15]
 
 # read MD file
-df = pd.read_csv(MD_data, sep='\t', header=0, comment='@')
-df.columns = df.columns.astype(int)
-df = df[cols]
+df = pd.read_csv(MD_data, sep='\t', header=None, usecols=cols, comment='@')
 df = df.rename(columns=sam_dict)
 df = df.rename(columns={'ref_id':ref_col, 'CIGAR':'CIGAR_m'})
 df = df[df[ref_col]!='*']

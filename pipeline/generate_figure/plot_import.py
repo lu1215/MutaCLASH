@@ -39,7 +39,7 @@ def add_two_mRNA_list(new, target, gene):
         csr1 = target[target['WAGO1IP__WAGO1Input']==True].reset_index(drop=True)
     elif gene == 8: # Germline target
         csr1 = target[target['ce.germline.genes.Ortiz.G3_2014.type'].notnull()].reset_index(drop=True)
-        
+    
     tmp1 = new[new['Gene ID'].isin(list(csr1['row_names']))].reset_index(drop=True)
     return tmp1
 

@@ -158,4 +158,4 @@ then
 fi
 
 echo Output: data/output/${DIR}
-echo "Program complete successfully."
+echo "Program complete."
