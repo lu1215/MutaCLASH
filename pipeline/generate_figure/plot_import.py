@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 import re
+import sys
 from collections import Counter
 import seaborn as sns
 from tqdm import tqdm, trange
@@ -106,17 +107,5 @@ data = pd.read_csv(inputname)
 mrna_275 = pd.read_csv(trans) 
 mrna_275 = mrna_275[['Gene name', 'sequence']]
 
-## user defined
-if tool=='pirScan':
-    # targeting_score, mir_score, RNAup_score
-    score_type =  'targeting_score'
-    top = 10
-    two_third = 0
-    one_third = -15
-    bot = -30
-elif tool=='miRanda':
-    score_type =  'mir_score'
-    top = max(data[score_type])
-    two_third = 140
-    one_third = 100
-    bot = 60
+## Gene List
+title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}

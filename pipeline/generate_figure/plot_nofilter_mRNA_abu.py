@@ -1,5 +1,20 @@
 from plot_import import *
 
+if tool=='pirScan':
+    score_type =  'targeting_score'
+elif tool=='miRanda':
+    score_type =  'mir_score'
+elif tool=='RNAup':
+    score_type =  'RNAup_score'
+    data = data[data[score_type] != 100]
+    print("Filter Score != 100:{}".format(len(data)))
+else:
+    sys.exit(0)
+
+one_third = np.quantile(list(data[score_type]), 0.333)
+two_third = np.quantile(list(data[score_type]), 0.666)
+top = max(data[score_type])
+bot = min(data[score_type])
 print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
@@ -7,9 +22,7 @@ print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 # Gene List
 title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
 target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
-try:
-    data['Gene ID'] = data['Gene ID'].apply(lambda x:x.split('=')[1])
-except:
+if 'Gene ID' not in data:
     print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
     data_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
     data_id = data_id.rename(columns={'Gene name':'transcript_name'})
@@ -346,7 +359,7 @@ score_range = [top, bot]
 per_score = (top-bot)/10
 #print(per_score)
 group_list = [0]
-t = data[['transcript_name', 'regulator_name', 'mir_score', 'D', 'M', 'A', 'Gene ID', 'fold_change_avg', 'fold_change_avg_without0']]
+t = data[['transcript_name', 'regulator_name', score_type, 'D', 'M', 'A', 'Gene ID', 'fold_change_avg', 'fold_change_avg_without0']]
 top = int(top-per_score)
 for group in group_list:
     for mut in ['D', 'M']:
@@ -368,7 +381,7 @@ for group in group_list:
             text2 = []
             text3 = []
             order = []
-            for s1 in range(top, bot, -int(per_score)):
+            for s1 in np.arange(top, bot, -int(per_score)):
                 s2 = int(s1-per_score)
                 tmp = t[t[score_type] <= s1]
                 tmp = tmp[tmp[score_type] > s2]

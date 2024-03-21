@@ -1,5 +1,15 @@
 from plot_import import *
 
+if tool=='pirScan':
+    score_type =  'targeting_score'
+else:
+    print('[Warning] 22G abundance only on pirScan.')
+    sys.exit(0)
+
+one_third = np.quantile(list(data[score_type]), 0.333)
+two_third = np.quantile(list(data[score_type]), 0.666)
+top = max(data[score_type])
+bot = min(data[score_type])
 print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
@@ -7,9 +17,7 @@ print('low: {} < S <= {}'.format(str(bot), str(one_third)))
 # Gene List
 title_map_gene = {'0':'all mRNAs','1':'CSR-1 target','2':'WAGO-1 target', '8':'Germline target'}
 target = pd.read_excel('../../data/reference/add_two_HCLee.RNAseq.master.xlsx')
-try:
-    data['Gene ID'] = data['Gene ID'].apply(lambda x:x.split('=')[1])
-except:
+if 'Gene ID' not in data:
     print('no "Gene ID", using reference file: mRNA_WS275_IDtoName.csv')
     data_id = pd.read_csv('../../data/reference/mRNA_WS275_IDtoName.csv')
     data_id = data_id.rename(columns={'Gene name':'transcript_name'})
@@ -525,8 +533,8 @@ for group in [1,2,8]:
 #             ax1.set_title(text,fontsize=12)
             
 
-#             x = d1['targeting_score']
-#             y = d2['targeting_score']
+#             x = d1[score_type]
+#             y = d2[score_type]
 #             print(len(x), len(y))
 #             sorted_x = np.sort(x)
 #             sorted_y = np.sort(y)
@@ -623,8 +631,8 @@ for group in [1,2,8]:
             ax1.set_title('22G read count CDF\n'+text, fontsize=12)
             
             # target score cdf
-            x = d1['targeting_score']
-            y = d2['targeting_score']
+            x = d1[score_type]
+            y = d2[score_type]
             print(len(x), len(y))
             sorted_x = np.sort(x)
             sorted_y = np.sort(y)
@@ -859,7 +867,7 @@ for group in [1,2,8]:
 # score_range = [5, 0] # [5, 0], [0, -5], [-5, -10], [-10, -15], [-15, -20], [-20, -25], [-25, -30]
 # group = 1
 # mut = 'M'
-t = data[['transcript_name', 'regulator_name', 'targeting_score', '22G_rc_WT', 'D', 'M', 'A', 'Gene ID', 'RNAup_score', '22G_rc_MUT']]
+t = data[['transcript_name', 'regulator_name', score_type, '22G_rc_WT', 'D', 'M', 'A', 'Gene ID', 'RNAup_score', '22G_rc_MUT']]
 score_list = [[5, 0], [0, -5], [-5, -10], [-10, -15], [-15, -20], [-20, -25], [-25, -30]]
 group_list = [1,2,8]
 for group in group_list:
@@ -878,7 +886,7 @@ for group in group_list:
             for s1 in range(score_range[0], score_range[1], -1):
                 for s2 in range(2):
                     ss = s1 - 0.5*s2
-                    tmp = t[t['targeting_score'] == ss]
+                    tmp = t[t[score_type] == ss]
                     tmp['22G_rc_WT'] = [n/nor_f for n in tmp['22G_rc_WT']]
                     ana_data = add_two_mRNA_list(tmp, target, group)
                     no_del_clash_result = ana_data[ana_data['A'].astype(str).isin(['[]'])]
@@ -939,7 +947,7 @@ score_range = [top, bot]
 per_score = (top-bot)/10
 #print(per_score)
 group_list = [1,2,8]
-t = data[['transcript_name', 'regulator_name', 'targeting_score', '22G_rc_WT', 'D', 'M', 'A', 'Gene ID', 'RNAup_score', '22G_rc_MUT']]
+t = data[['transcript_name', 'regulator_name', score_type, '22G_rc_WT', 'D', 'M', 'A', 'Gene ID', 'RNAup_score', '22G_rc_MUT']]
 top = int(top-per_score)
 for group in group_list:
     for mut in ['D', 'M']:
@@ -953,7 +961,7 @@ for group in group_list:
         text1 = []
         text2 = []
         text3 = []
-        for s1 in range(top, bot, -int(per_score)):
+        for s1 in np.arange(top, bot, -int(per_score)):
             s2 = int(s1-per_score)
             #print(group, mut, 'score range: {}-{}'.format(s1, s2))
             tmp = t[t[score_type] <= s1]
