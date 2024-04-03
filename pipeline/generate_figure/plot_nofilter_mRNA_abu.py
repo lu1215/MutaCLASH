@@ -203,10 +203,18 @@ for group in [0]:
                 y = [n for n in d2[abu+'_without0'] if n != 'NULL']
                 tmp1 = pd.Series(list(x))
                 tmp2 = pd.Series(list(y))
-                mean1 = round(np.mean(list(x)), 3)
-                mean2 = round(np.mean(list(y)), 3)
-                median1 = round(np.quantile(list(x), 0.5), 3)
-                median2 = round(np.quantile(list(y), 0.5), 3)
+                if len(x)==0:
+                    mean1 = 'N/A'
+                    median1 = 'N/A'
+                else:
+                    mean1 = round(np.mean(list(x)), 3)
+                    median1 = round(np.quantile(list(x), 0.5), 3)
+                if len(y)==0:
+                    mean2 = 'N/A'
+                    median2 = 'N/A'
+                else:
+                    mean2 = round(np.mean(list(y)), 3)
+                    median2 = round(np.quantile(list(y), 0.5), 3)
                 tmp = pd.DataFrame({'with {}\nN={}\nmean: {}\nmedian: {}'.format(mut_n, str(len(x)), str(mean1), str(median1)): tmp1,
                                     'without {}\nN={}\nmean: {}\nmedian: {}'.format('mut', str(len(y)), str(mean2), str(median2)): tmp2})
 
