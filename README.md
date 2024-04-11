@@ -1,32 +1,33 @@
-# Crosslink Induced Mutation Sites (CIMS)
+# MutaCLASH
 
 ## Description
-The **Crosslink Induced Mutation Sites (CIMS)** project is designed to detect the coordinates of CIMS ( **deletions** or **substitutions** ) in NGS data. It provides a comprehensive analysis pipeline for identifying mutation sites and binding sites in hybrid-reads derived from CLASH or iCLIP experiments.
+The **MutaCLASH** project is designed to detect the coordinates of Crosslink Induced Mutation Sites (CIMS) in NGS data. It provides a comprehensive analysis pipeline for identifying mutation sites and binding sites in hybrid-reads derived from CLASH or iCLIP experiments.
 
 ## Features
 - Utilizes [CLASH Analyst](https://cosbi7.ee.ncku.edu.tw/CLASHanalyst/input/) to identify suitable NGS reads for analysis
-- Uses [ChiRA](https://github.com/pavanvidem/chira) to identify suitable hybrid-reads
-- Detects mutation information using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml)
+- Uses [ChiRA](https://github.com/pavanvidem/chira), [HYB](https://github.com/gkudla/hyb), [CLAN](https://sourceforge.net/projects/clan-mapping) and [piRTarBase](http://cosbi6.ee.ncku.edu.tw/piRTarBase) to identify suitable hybrid-reads
+- Detects mutation information using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml) or [BWA](https://bio-bwa.sourceforge.net)
 - Utilizes algorithms such as [pirScan](http://cosbi4.ee.ncku.edu.tw/pirScan/), [miRanda](https://bioweb.pasteur.fr/packages/pack@miRanda@3.3a), and [RNAup](https://github.com/ViennaRNA/ViennaRNA) to identify binding sites
 - Generates visualizations of the distribution of mutations
 
 ## Usage
 To run the CIMS pipeline, execute the following command:
 ```
-sh run.sh <input file> <regulator file> <transcript file> <algorithm> <abundance analysis type>
+sh run.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <abundance analysis type>
 ```
 - **input file:** NGS data in FASTA or CSV format.
 - **regulator file**: regulator file in FASTA or CSV format.
 - **transcript file**: transcript file in FASTA or CSV format.
+- **tool** Tool used to detect hybrid reads, which can be `chira, hyb, clan, pir`.
 - **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
 - **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
 
 After executing the command, the pipeline will run and complete all the necessary steps.
 
 ## Input
-- **NGS data** in FASTA or CSV format. For FASTA format, names should be in the ">ID_count" format.
-- **Regulator file** in FASTA or CSV format with at least "regulator_name" and "raw_regulator_seq" fields.
-- **Transcript file** in FASTA or CSV format with at least "Gene name" and "sequence" fields.
+- **NGS data** in FASTQ format.
+- **Regulator file** in FASTA format.
+- **Transcript file** in FASTA format.
 
 ## Output
 The output files are stored in the `data/output/` directory. The directory contains the following files:
@@ -64,8 +65,3 @@ Please refer to the corresponding tool documentation for more details on the spe
 - pandas >= 0.23.0
 - scipy >= 1.1.0
 - statannot = 0.2.3
-- Bowtie2 >= 2.1.0
-- ChiRA >= 1.4.0
-- BWA >= 0.7.5a
-- miRanda >= 3.3a
-- RNAup >= 2.4.10
