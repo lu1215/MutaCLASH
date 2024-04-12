@@ -1,7 +1,9 @@
 ## Instruction
-The regulator file is `piRNA_WS275.fa`, and the transcript file is `mRNA_WS275.fa`.
+- Regulator file: **piRNA_WS275.fa**
+- Transcript file: **mRNA_WS275.fa**
+- Input file: **C.elegans PRG-1 CLASH data** [(SRR6512652)](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR6512652)
 
-The example input file is C.elegans PRG-1 CLASH data [(SRR6512652)](https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR6512652). You can download and unzip this file with SRAtoolkit in `bio_tool/`:
+You can download and unzip input file with SRAtoolkit in `bio_tool/`:
 ```
 cd examples
 wget https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR6512652/SRR6512652
