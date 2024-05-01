@@ -1,5 +1,17 @@
 from plot_import import *
 
+# all score
+tmp_df = data.groupby(by=['targeting_score'])['nor_readcount','nor_count'].sum().reset_index()
+for rc_type in ['nor_readcount', 'nor_count']:
+    fig, ax = plt.subplots(1,1, figsize=(6, 4), dpi=200)
+    ax.plot(tmp_df['targeting_score'], tmp_df[rc_type], color='firebrick')
+    ax.set_xlabel('Targeting score')
+    ax.set_ylabel('Read counts')
+    plt.savefig('figure/{}_{}_pirScan_score.{}'.format(d_name,rc_type, fig_type), bbox_inches='tight')
+    plt.clf()
+    plt.close()
+    gc.collect()
+
 # three part
 one_third = np.quantile(list(data['targeting_score']), 0.333)
 two_third = np.quantile(list(data['targeting_score']), 0.666)
@@ -129,7 +141,7 @@ for mut in ['D', 'M']:
                 sd_type = 'two_third'
             elif sd == 3:
                 sd_type = 'one_third'
-            plt.savefig('figure/distribution_plot/{}_{}_{}_{}_pirScan.png'.format(d_name,mut,sd_type,rc_type))
+            plt.savefig('figure/distribution_plot/{}_{}_{}_{}_pirScan.{}'.format(d_name,mut,sd_type,rc_type, fig_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -297,7 +309,7 @@ for mut in ['D', 'M']:
                     sd_type = 'two_third'
                 elif sd == 3:
                     sd_type = 'one_third'
-                plt.savefig('figure/pairing_ratio_plot/plot21/{}_{}_{}_{}_{}_pirScan.png'.format(str(i),d_name,mut,sd_type,rc_type), bbox_inches='tight')
+                plt.savefig('figure/pairing_ratio_plot/plot21/{}_{}_{}_{}_{}_pirScan.{}'.format(str(i),d_name,mut,sd_type,rc_type, fig_type), bbox_inches='tight')
                 plt.clf()
                 plt.close()
                 gc.collect()
@@ -416,8 +428,78 @@ for mut in ['D', 'M']:
                 sd_type = 'two_third'
             elif sd == 3:
                 sd_type = 'one_third'
-            plt.savefig('figure/pairing_ratio_plot/plot_all/{}_{}_{}_{}_pirScan.png'.format(d_name,mut,sd_type,rc_type))
+            plt.savefig('figure/pairing_ratio_plot/plot_all/{}_{}_{}_{}_pirScan.{}'.format(d_name,mut,sd_type,rc_type, fig_type))
             plt.clf()
             plt.close()
             gc.collect()
+
+            # pairing ratio V3
+            for box in ['seed', 'non-seed']:
+                for diff in [True, False]:
+                    pos = 21 # maximum x-axis position
+                    new_df = pd.DataFrame()
+                    for i in range(pos+1):
+                        if diff:
+                            if i==0:
+                                continue
+                            else:
+                                y = [d_acc_dict[str(i)][0][j]-acc_dict[str(i)][0][j] for j in range(reg_seq_len)]
+                        else:
+                            if i==0:
+                                y = acc_dict['1'][0]
+                            else:
+                                y = d_acc_dict[str(i)][0]
+                        tmp_df = pd.DataFrame()
+                        tmp_df['x'] = [i]*reg_seq_len
+                        tmp_df['y'] = y
+                        tmp_df['region'] = ['non-seed']+['seed']*6+['non-seed']*(reg_seq_len-7)
+                        new_df = pd.concat([new_df, tmp_df])
+                    plot_df = new_df[new_df['region'] == box]
+
+                    fig, ax = plt.subplots(1,1, figsize=(15,4), dpi=200)
+                    if diff:
+                        palette = ['#9abbff']*pos
+                    else:
+                        palette = ['#dddcdc'] + ['#9abbff']*pos
+                        
+                    ax = sns.boxplot(data=plot_df, x='x', y='y', width=0.3, showfliers=False,
+                                    showmeans=False, medianprops=dict(color='orange'), palette=palette)
+                    ax.set_ylabel('pairing ratio')
+                    ax.set_xlabel('mutation position')
+
+                    if sd == 1:
+                        sd_type = 'all_data'
+                    elif sd == 2:  
+                        sd_type = 'two_third'
+                    elif sd == 3:
+                        sd_type = 'one_third'
+
+                    if diff:
+                        ax.set_title(box)
+                        plt.savefig('figure/pairing_ratio_plot/plot_diff/{}_{}_{}_{}_{}_diff_pirScan.{}'.format(d_name, mut, sd_type, rc_type, box, fig_type), bbox_inches='tight')
+                    else:
+                        ax.set_title(box, y=1.07)
+                        ax.axvline(x=0.5,c='k',linestyle='dashed', linewidth=0.7)
+                        labels = [item.get_text() for item in ax.get_xticklabels()]
+                        labels[0] = 'ALL'
+                        ax.set_xticklabels(labels)
+
+                        # statistical test (U-test)
+                        ylim = ax.get_ylim()
+                        test_pos = ylim[1] + 0.02 * (ylim[1] - ylim[0])
+                        for i in range(1, pos+1):
+                            sample1 = plot_df.loc[ plot_df['x']==0, 'y']
+                            sample2 = plot_df.loc[ plot_df['x']==i, 'y']
+                            _, p = stats.mannwhitneyu(sample1, sample2)
+                            
+                            if p < 0.05:
+                                ax.text(i-0.15, test_pos, '**')
+                            elif p < 0.1:
+                                ax.text(i-0.05, test_pos, '*')
+
+                        plt.savefig('figure/pairing_ratio_plot/plot_diff/{}_{}_{}_{}_{}_pirScan.{}'.format(d_name, mut, sd_type, rc_type, box, fig_type), bbox_inches='tight')
+                    
+                    plt.clf()
+                    plt.close()
+                    gc.collect()
 

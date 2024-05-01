@@ -1,3 +1,15 @@
+#!/bin/bash
+# ===========================
+# Main Arguments
+# <input file>: NGS data in FASTQ format.
+# <regulator file>: regulator file in FASTA format.
+# <transcript file>: transcript file in FASTA format.
+# <tool>: Tool used to detect hybrid reads, which can be "chira", "hyb", "clan".
+# <algorithm>: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
+# <abundance analysis type>: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+# Full Documentation: https://github.com/RyanCCJ/MutaCLASH
+# ===========================
+
 # read path
 READ=$1
 # regulator path
@@ -122,10 +134,16 @@ echo "Step7. generate figure"
 cd generate_figure
 # [pirScan/miRanda/RNAup]
 Algorithm=$5
-# normalization factor
+# 22G normalization factor
 G22_FACTOR=811.03  # WAGO-1_IP WT
+# abundance region, leave blank for 2/3 and 1/3
+# miRNA: 200/140/100/60
+# piRNA: 10/0/-15/-30
+# REGION=10/0/-15/-30
+# [png/svg]
+FIGURE=svg
 # >>>
-sh run.sh ${DATA} ../${OUTPUT} ${Algorithm} ${TYPE} ${G22_FACTOR} ${TAR}
+sh run.sh ${DATA} ../${OUTPUT} ${Algorithm} ${TYPE} ${G22_FACTOR} ${TAR} ${FIGURE} ${REGION}
 # >>>
 cd ../../
 

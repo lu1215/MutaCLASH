@@ -11,10 +11,14 @@ elif tool=='RNAup':
 else:
     sys.exit(0)
 
-one_third = np.quantile(list(data[score_type]), 0.333)
-two_third = np.quantile(list(data[score_type]), 0.666)
-top = max(data[score_type])
-bot = min(data[score_type])
+if abu_region:
+    top, two_third, one_third, bot = [float(x) for x in abu_region.split('/')]
+else:
+    one_third = np.quantile(list(data[score_type]), 0.333)
+    two_third = np.quantile(list(data[score_type]), 0.666)
+    top = max(data[score_type])
+    bot = min(data[score_type])
+    
 print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
@@ -242,7 +246,7 @@ for group in [0]:
                 #print(text)
                 ax2.text(1.6,0,text,fontsize=14, verticalalignment='baseline')
                 plt.tight_layout()
-                plt.savefig('figure/abu_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
+                plt.savefig('figure/abu_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, dn_list[d_n], score_type, fig_type))
                 plt.clf()
                 plt.close()
                 gc.collect()
@@ -352,7 +356,7 @@ for group in [0]:
                 ax2.axvline(x=0, c='k', linestyle='dashed', linewidth=0.5)
                 ax2.set_xlim(-1, 1)
                 plt.tight_layout()
-                plt.savefig('figure/abu_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation_cdf.png'.format(d_name, str(group), mut, d_n, score_type))
+                plt.savefig('figure/abu_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation_cdf.{}'.format(d_name, str(group), mut, d_n, score_type, fig_type))
                 plt.clf()
                 plt.close()
                 gc.collect()
@@ -446,7 +450,7 @@ for group in group_list:
                 #plt.text(2*(i+1)-1.5,y,text[i],fontsize=11, horizontalalignment='center') 
                 plt.annotate(text[i], xy=(i*2/len(columns_list)+0.01,-0.35), xycoords='axes fraction')
             plt.tight_layout()   
-            plt.savefig('figure/abu_plot/per_score/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, score_type, w_n))
+            plt.savefig('figure/abu_plot/per_score/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, score_type, w_n, fig_type))
             plt.clf()
             plt.close()
             gc.collect()

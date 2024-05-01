@@ -1,6 +1,9 @@
 TOOL=$3
 TYPE=$4
-ARGS="--basename $1 --inputname $2 --tool $3 --norm_factor $5 --trans $6"
+ARGS="--basename $1 --inputname $2 --tool $3 --norm_factor $5 --trans $6 --figure $7"
+if [ $# -ge 8 ]; then
+    ARGS="${ARGS} --region $8"
+fi
 
 python rm_fig.py
 

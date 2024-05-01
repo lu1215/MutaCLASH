@@ -6,10 +6,14 @@ else:
     print('[Warning] 22G abundance only on pirScan.')
     sys.exit(0)
 
-one_third = np.quantile(list(data[score_type]), 0.333)
-two_third = np.quantile(list(data[score_type]), 0.666)
-top = max(data[score_type])
-bot = min(data[score_type])
+if abu_region:
+    top, two_third, one_third, bot = [float(x) for x in abu_region.split('/')]
+else:
+    one_third = np.quantile(list(data[score_type]), 0.333)
+    two_third = np.quantile(list(data[score_type]), 0.666)
+    top = max(data[score_type])
+    bot = min(data[score_type])
+    
 print('high: {} < S <= {}'.format(str(two_third), str(top)))
 print('mid: {} < S <= {}'.format(str(one_third), str(two_third)))
 print('low: {} < S <= {}'.format(str(bot), str(one_third)))
@@ -132,7 +136,7 @@ for group in group_list:
             text = 'U test: {} > {}: {}'.format(mut_n, 'com',U_m)+'\nU test: {} < {}: {}'.format(mut_n, 'com', U_c,)+'\n-----------------------------------------\nT test: {} > {}: {}'.format(mut_n, 'com', T_m)+'\nT test: {} < {}: {}'.format(mut_n, 'com', T_c)+'\n-----------------------------------------\nKS test: {} > {}: {}'.format(mut_n, 'com', KS_m)+'\nKS test: {} < {}: {}'.format(mut_n, 'com', KS_c)
             #print(text)
             plt.text(1.6,0,text,fontsize=14)
-            plt.savefig('figure/G22_plot/22G/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type), bbox_inches='tight')
+            plt.savefig('figure/G22_plot/22G/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, dn_list[d_n], score_type, fig_type), bbox_inches='tight')
             plt.clf()
             plt.close()
             gc.collect()
@@ -225,7 +229,7 @@ for group in group_list:
             #print(text)
             ax2.text(1.6,0,text,fontsize=14, verticalalignment='top')
             plt.tight_layout()
-            plt.savefig('figure/G22_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
+            plt.savefig('figure/G22_plot/FOLD/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, dn_list[d_n], score_type, fig_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -293,7 +297,7 @@ for group in group_list:
             ax2.set_title('targeting score CDF\n'+text,fontsize=12)
             plt.tight_layout()
             
-            plt.savefig('figure/G22_plot/22G_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
+            plt.savefig('figure/G22_plot/22G_CDF/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, dn_list[d_n], score_type, fig_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -360,7 +364,7 @@ for group in group_list:
             ax2.set_title('22G FOLD Change (without 0)\n'+text,fontsize=12)
             ax2.axvline(x=0, c='k', linestyle='dashed', linewidth=0.5)
             plt.tight_layout()
-            plt.savefig('figure/G22_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, dn_list[d_n], score_type))
+            plt.savefig('figure/G22_plot/FOLD_CDF/{}_group{}_{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, dn_list[d_n], score_type, fig_type))
             plt.clf()
             plt.close()
             gc.collect()
@@ -438,7 +442,7 @@ for group in group_list:
             #plt.text(2*(i+1)-1.5,y,text[i],fontsize=11, horizontalalignment='center') 
             plt.annotate(text[i], xy=(i*2/len(columns_list)+0.01,-0.35), xycoords='axes fraction')
         plt.tight_layout()   
-        plt.savefig('figure/G22_plot/per_score/{}_group{}_{}_{}_with_mutation.png'.format(d_name, str(group), mut, score_type))
+        plt.savefig('figure/G22_plot/per_score/{}_group{}_{}_{}_with_mutation.{}'.format(d_name, str(group), mut, score_type, fig_type))
         plt.clf()
         plt.close()
         gc.collect()

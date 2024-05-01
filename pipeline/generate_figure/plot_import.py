@@ -28,6 +28,8 @@ def get_args():
     parser.add_argument("--trans", help="type trans data", type=str)
     parser.add_argument("--norm_factor", help="type base dataname", type=str)
     parser.add_argument("--tool", help="type base dataname", type=str)
+    parser.add_argument("--region", help="type abundance regions", type=str)
+    parser.add_argument("--figure", help="type file extension of figures", type=str)
     args = parser.parse_args()
     return args
 
@@ -100,6 +102,8 @@ inputname = args.inputname
 trans = args.trans
 nor_f = float(args.norm_factor)
 tool = args.tool
+abu_region = args.region
+fig_type = args.figure
 
 ## load data
 d_name = basename
