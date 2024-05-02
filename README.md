@@ -61,6 +61,13 @@ In statistical testing, ** and * indicate significant differences, with U-test P
 
 <!--Please refer to the corresponding tool documentation for more details on the specific output files and their interpretations.-->
 
+## Docker
+If you have any concerns about environment setup, feel free to use the Docker version directly.
+```bash
+docker build -t <image_name> .
+docker run -it -name <container_name> <image_name>
+```
+
 ## Requirements
 Running MutaCLASH require Linux or MacOS. Other Unix environments will probably work but have not been tested. Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
