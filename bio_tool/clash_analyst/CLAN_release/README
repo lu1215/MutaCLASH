@@ -1,0 +1,68 @@
+=============================================
+  CLAN: the CrossLinked reads ANalysis tool
+
+  Author: Cuncong Zhong
+  Date: Dec 22th, 2017
+  Contact: cczhong@ku.edu
+=============================================
+
+CAVEAT: The software comes with no performance or correctness guarantee.
+  If you find bugs or have any suggestions, please contact me at cczhong@ku.edu
+
+LICENSE: The software is under the Creative Commons BY-NC-ND 4.0 license, which means:
+  *Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. 
+                 You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+  *NonCommercial — You may not use the material for commercial purposes.
+  *NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.
+  *No additional restrictions — You may not apply legal terms or technological measures that 
+                 legally restrict others from doing anything the license permits. 
+
+SUMMARY: 
+
+  The software is developed for mapping CLASH data against reference genomes. Comparing
+to BLAST, CLAN is more sensitive and much faster.
+  The inputs of CLAN are the reference genome and the CLASH reads in FASTA format.
+The output of CLAN is a tab-delimited file that contains the mapping information.
+
+Compilation:
+
+  Please go into the home folder of CLAN, let it be "~/CLAN_release".
+  Then type "make". The binary files will be created under "~/CLAN_release/bin"
+
+Usage through example:
+
+  The first step is to build index using program "clan_index". Let "~/CLAN_release/example/example.ref.fn"
+be our reference genome (in FASTA format), we can build index using:
+
+  "./bin/clan_index -f example/example.ref.fn -d example/index/example.ref"
+
+  clan_index is going to build index for the reference genome; you should be able
+to find three index files under "~/CLAN_release/example/index".
+  The next step is to search our CLASH reads against the reference genome. Let 
+"~/CLAN_release/example/example.reads.fn" be our CLASH reads, we can search the
+reads using:
+
+  "./bin/clan_search -r example/example.reads.fn -o example/example.map -f example/example.ref.fn -d example/index/example.ref"
+
+  clan_search is going to write the mapping results into "~/CLAN_release/example/example.map".
+
+Description of output:
+
+  The output contains the following fields:
+
+  read_id: this is the ID of the read
+  solution_id: this is the identifier for a unique solution 
+    (in cases there are multiple equivalently good solutions)
+  read_mapped_begin: begin of the region of the read that is mapped (1-based)
+  read_mapped_end: end of the region of the read that is mapped (1-based)
+  read_length: the length of the read
+  mapped_locations: mapped location in reference (1-based)
+    the format is chromosome_0:begin_0-end_0;chromosome_1:begin_1-end_1;...
+    notice that if begin is greater than end then the region is mapped to minus strand
+
+# update notes v0.02
+-	allows for strand-specific search (without considering the reverse strand) using option -s
+-	allows for ungapped extension and gapped extension of the seeds
+-	optimize the computational efficiency
+
+

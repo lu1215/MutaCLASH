@@ -1,0 +1,298 @@
+#!/bin/bash
+#set -u
+#set -e
+
+
+
+
+shell_folder=$(cd "$(dirname "$0")";pwd)
+upper_folder=$(dirname $shell_folder)
+. ${shell_folder}/framefunction.sh
+env_path=$upper_folder/env_path.sh
+
+if [ -e $env_path ];then
+    . $env_path
+fi
+
+#bash pipeline -f SRR6512653.fastq -t mRNA_sequence.csv  -r ~/pra/input/piRNA1000.csv -g gene_transcript.csv -a AGATCGGAAGAG -o output.csv -l 17 -C 5 -F -20 -U -20 -G 0 -L 15 -m 0 -M 0 -b 1 -B 1 -p 1
+
+#------------default parameter -------------------
+outfile=output.csv   #o
+read_len=17 #l
+read_count=None    #C
+RNAfold_MFE=None #F
+RNAup_score=None #U
+GU_targeting_score=None    #G
+remain_len=15   #L
+reg_hyb_mis=0   #m
+rem_tran_mis=0  #M
+reg_hyb_bowtie=1    #b
+rem_tran_bowtie=1   #B
+parallel=0  #p
+
+
+# check whether use options or not
+# ---------------------------------------
+if [ $# -lt 1 ];then
+	echo "Try '$0 -h' for more information."
+	exit 1
+fi
+# -h option
+#-----------------------------------
+function usage(){
+cat << -EOF-
+Usage: 
+    pipeline -f <fastqfile> -t <transcript file> -r <regulator file> [OPTIONS]  
+Options:
+    -h display this help and exit
+
+    -f (must use) hybrid file(fastq)
+
+    -t (must use) transcript file(csv)
+       (must have "transcript_name" and "sequence" column name)
+
+    -r (must use) regulator file(csv)
+       (must have "regulator_name" and "sequence" column name)
+
+    -g Gene to transcript file(csv)
+       (must have "transcript_name" and "Gene_name" column name)
+
+    -a adaptor sequence(for trim_galore parameter)
+       If not specified,trim_galore will auto detect.
+
+    -o output file name
+       (will have following output) 
+       OUTPUT.csv,
+       OUTPUT_hybrid_transcript.csv
+       OUTPUT_regulator_transcript.csv,
+       OUTPUT_transcript_regulator.csv,
+       OUTPUT_gene.csv(if you use -g <gene to transcript file>)
+       default output.csv
+
+    -l select hybrid read length(greater equal) 
+       (for trim_galore parameter)
+       default 17
+
+    -L select remaining sequence length(greater equal) 
+       default 15
+
+    -C select hybrid read count(greater equal) 
+       (must have "read_count" column name)
+       default None
+
+    -G you will use "GU targeting algorithm" and select "GU_targeting_score"(greater equal)
+       "GU targeting algorithm" only for "regulator = piRNA" or "regulator sequence length=21"
+       if you want to use this option,make sure you have already installed "python3"
+       (inclue "numpy" and "pandas")
+       default None
+
+    -U select "RNAup_score" (less equal)
+       default None
+
+    -F select "RNAfold_MFE" (less equal)
+       default None
+
+    -b use bowtie build or not
+       (for hybrid build reference)
+       1 for use,0 for not use
+       default 1
+
+    -B use bowtie build or not
+       (for transcript build reference)
+       1 for use,0 for not use
+       default 1
+
+    -m mismatch count for "regulator to hybrid"
+       (you can only use 0,1,2)
+       default 0
+
+    -M mismatch count for "remaining to transcript"
+       (you can only use 0,1,2)
+       default 0
+
+    -p use parallel to increase speed. 
+       if you want to use this option,make sure you have already installed "parellel"
+       sudo apt-get install parallel
+       1 for use,0 for not use
+       default 0
+    
+-EOF-
+exit 1
+}
+
+# get options
+# ---------------------------------------
+while getopts ":f:t:r:g:a:o:l:L:C:G:U:F:b:B:m:M:p:h" opt
+do
+	case $opt in
+		h)
+			usage
+			;;
+        f)
+            fastqfile="$(cd $(dirname $OPTARG);pwd)/$(basename $OPTARG)"
+            ;;
+        t)
+            tranfile="$(cd $(dirname $OPTARG);pwd)/$(basename $OPTARG)"
+            ;;
+        r)
+            regfile="$(cd $(dirname $OPTARG);pwd)/$(basename $OPTARG)"
+            ;;
+        g)
+            genefile="$(cd $(dirname $OPTARG);pwd)/$(basename $OPTARG)"
+            ;;
+        a)
+            adaptor=$OPTARG
+            ;;
+        o)
+            outfile="$(cd $(dirname $OPTARG);pwd)/$(basename $OPTARG)"
+            ;;
+        l)
+            read_len=$OPTARG
+            ;;
+        L)
+            remain_len=$OPTARG
+            ;;
+        C)
+            read_count=$OPTARG
+            ;;
+        G)
+            GU_targeting_score=$OPTARG
+            ;;
+        U)
+            RNAup_score=$OPTARG
+            ;;
+        F)
+            RNAfold_MFE=$OPTARG
+            ;;
+        b)
+            reg_hyb_bowtie=$OPTARG
+            ;;
+        B)
+            rem_tran_bowtie=$OPTARG
+            ;;
+        m)
+            reg_hyb_mis=$OPTARG
+            ;;
+        M)
+            rem_tran_mis=$OPTARG
+            ;;
+        p)
+            parallel=$OPTARG
+            ;;
+		*)
+			echo -e "$0: invalid option -- 'x'\nTry '$0 -h' for more information."
+            exit 1
+			;;
+	esac
+done
+
+if [ ! $fastqfile ];then
+    echo "you need to input '-f <fastqfile>'"
+    exit 1
+fi
+
+if [ ! $tranfile ];then
+    echo "you need to input '-t <transcript file>'"
+    exit 1
+fi
+
+if [ ! $regfile ];then
+    echo "you need to input '-r <regulator file>'"
+    exit 1
+fi
+
+
+if [ $parallel -eq 1 ];then
+    if [ ! -x "$(which parallel)" ]; then
+        echo "you need to install parallel"
+        echo 'try "sudo apt-get install parallel"'
+        exit 1
+    fi
+fi
+
+
+# check file/directory exist
+checkFile $fastqfile
+checkFile $tranfile
+checkFile $regfile
+
+# check the \n format,if file from dos
+# use dos2unix
+checkNewline $fastqfile
+checkNewline $tranfile
+checkNewline $regfile
+
+
+
+#base_tran=$(basename $tranfile)
+#base_reg=$(basename $regfile)
+base_tran=transcript.csv
+base_reg=regulator.csv
+out=${outfile%.*}
+temp_path=$(dirname $outfile)
+
+
+createDir ${temp_path}/original_name
+original_name=${temp_path}/original_name
+
+
+
+find_col transcript_name $tranfile
+tran_col=$?
+find_col regulator_name $regfile
+reg_col=$?
+
+
+# for step6 
+cut -d, -f $tran_col $tranfile > ${original_name}/$base_tran
+cut -d, -f $reg_col $regfile > ${original_name}/$base_reg
+
+
+echo ====================Analysis start====================
+echo $temp_path
+
+if [ ! $adaptor ];then
+    time bash ${shell_folder}/step1.sh -i $fastqfile -o ${temp_path}/step1.csv -l $read_len
+elif [ "$adaptor" = "None" ];then
+    time bash ${shell_folder}/step1.sh -i $fastqfile -o ${temp_path}/step1.csv -l $read_len
+else
+    time bash ${shell_folder}/step1.sh -i $fastqfile -o ${temp_path}/step1.csv -l $read_len -a ${adaptor}
+fi
+
+echo ====================step1 done====================
+
+time bash ${shell_folder}/step2.sh -i ${temp_path}/step1.csv -o ${temp_path}/step2.csv -T $read_count -M $RNAfold_MFE
+echo ====================step2 done====================
+
+time bash ${shell_folder}/step3.sh -i $regfile -o ${temp_path}/step3.csv -r ${temp_path}/step2.csv -m $reg_hyb_mis -L ${remain_len} -b $reg_hyb_bowtie
+echo ====================step3 done====================
+
+time bash ${shell_folder}/step4.sh -i ${temp_path}/step3.csv -o ${temp_path}/step4.csv -r $tranfile -m $rem_tran_mis -b $rem_tran_bowtie
+echo ====================step4 done====================
+
+
+if [ "$GU_targeting_score" = "None" ];then
+    echo Not use GU targeting algorithm
+    time bash ${shell_folder}/step5.sh -i ${temp_path}/step4.csv -o ${temp_path}/step5.csv -N $RNAup_score -g None -p $parallel
+else
+    echo Use GU targeting algorithm
+    time bash ${shell_folder}/step5.sh -i ${temp_path}/step4.csv -o ${temp_path}/step5.csv -N $RNAup_score -g 1 -p $parallel
+fi
+echo ====================step5 done====================
+
+time bash ${shell_folder}/step6.sh -i ${temp_path}/step5.csv -o $outfile -t ${original_name}/${base_tran} -r ${original_name}/${base_reg} -p $GU_targeting_score -u ${RNAup_score} -f ${RNAfold_MFE}
+echo ====================step6 done====================
+
+if [ $genefile ];then
+    checkFile $genefile
+    checkNewline $genefile
+    time bash ${shell_folder}/step7.sh -i $outfile -o ${out}_gene.csv -G ${genefile}
+    echo ====================step7 done====================
+fi
+
+
+# for uploadind data  to web
+mv ${temp_path}/step5.csv ${original_name}/original.csv
+zip -r ${temp_path}/upload.zip ${original_name}/*
+
+rm -r ${temp_path}/step1.csv ${temp_path}/step2.csv ${temp_path}/step3.csv ${temp_path}/step4.csv ${temp_path}/original_name 
