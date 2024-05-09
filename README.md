@@ -66,8 +66,8 @@ Running MutaCLASH require Linux or MacOS. Other Unix environments will probably 
 
 To install some necessary tools and packages, execute the following command:
 ```bash
-apt-get install -y samtools bowtie2
-pip install -r requirements.txt
+$ apt-get install -y samtools bowtie2
+$ pip install -r requirements.txt
 ```
 
 - SAMtools >= 0.1.19
