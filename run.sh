@@ -11,17 +11,20 @@
 # ===========================
 
 # read path
-READ=$1
+READ=../../$1
 # regulator path
-REG=$2
+REG=../../$2
 # target path
-TAR=$3
+TAR=../../$3
 # data base name
 DATA=$(basename ${READ})
 DATA=${DATA%.*}
 
 # remove metadatas
 DEL_META=false
+
+# set environment
+. ./environment.sh
 
 # ===========================
 
@@ -45,12 +48,12 @@ HYBRID=chimeras
 if [ $TOOL = "chira" ]
 then
     cd chira
-    # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(8)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
+    # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(4)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
     # >>>
-    sh run.sh ${DATA} ../clash_analyst/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 8 12 6 4 18
+    sh run.sh ${DATA} ../clash_analyst/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18
     # >>>
     cd ..
-    TOOL=$HYBRID
+    TOOL=chira_${HYBRID}
     BWA_OUTPUT=chira/${DATA}_map_dir/sorted.bam
     OUTPUT=chira/${DATA}_extract_dir/${DATA}_${TOOL}.csv
 fi
@@ -141,7 +144,7 @@ G22_FACTOR=811.03  # WAGO-1_IP WT
 # piRNA: 10/0/-15/-30
 # REGION=10/0/-15/-30
 # [png/svg]
-FIGURE=svg
+FIGURE=png
 # >>>
 sh run.sh ${DATA} ../${OUTPUT} ${Algorithm} ${TYPE} ${G22_FACTOR} ${TAR} ${FIGURE} ${REGION}
 # >>>

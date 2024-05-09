@@ -15,7 +15,7 @@ mkdir ${F}_quantify_dir
 mkdir ${F}_extract_dir
 
 echo map
-chira/chira_map.py -i ${f0} -o ${F}_map_dir/ -b -f1 ${f1} -f2 ${f2} -p $6 -l1 $7 -go1 $8 -mm1 $9 -s1 $10
+chira/chira_map.py -i ${f0} -o ${F}_map_dir/ -b -f1 ${f1} -f2 ${f2} -p ${6} -l1 ${7} -go1 ${8} -mm1 ${9} -s1 ${10}
 
 echo merge
 chira/chira_merge.py -b ${F}_map_dir/sorted.bed -o ${F}_merge_dir/ -f1 ${f1} -f2 ${f2}

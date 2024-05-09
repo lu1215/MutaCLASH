@@ -1,4 +1,4 @@
-if [ $1 = "chira" ]
+if [ $1 = "chira_chimeras" ] || [ $1 = "chira_single"]
 then
     # merge regulator and target reference
     python merge_ref.py --reg $4 --tar $5
