@@ -12,7 +12,7 @@ The **MutaCLASH** project is designed to detect the coordinates of Crosslink Ind
 
 ## Usage
 To run the MutaCLASH pipeline, execute the following command:
-```
+```bash
 sh run.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <abundance analysis type>
 ```
 - **input file:** NGS data in FASTQ format.
@@ -22,7 +22,7 @@ sh run.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <ab
 - **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
 - **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA abundance (WAGO-1 IP) in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
 
-After executing the command, the pipeline will run and complete all the necessary steps.
+After executing the command, the pipeline will run and complete all the necessary steps. Please refer to the [examples](https://github.com/RyanCCJ/MutaCLASH/tree/master/examples) we provided.
 
 ### Preprocessing Configuration
 
@@ -64,14 +64,26 @@ In statistical testing, ** and * indicate significant differences, with U-test P
 ## Requirements
 Running MutaCLASH require Linux or MacOS. Other Unix environments will probably work but have not been tested. Windows users can use [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
+To install some necessary tools and packages, execute the following command:
+```bash
+apt-get install -y samtools bowtie2
+pip install -r requirements.txt
+```
+
+- SAMtools >= 0.1.19
+- Bowtie2 >= 2.4.0
 - Python >= 3.5
-- numpy >= 1.12.1
-- seaborn >= 0.9
-- matplotlib >= 2.2.2
-- pandas >= 0.23.0
-- scipy >= 1.1.0
-- statannot = 0.2.3
+- bcbio-gff >= 0.6.9
+- biopython >= 1.76
 - cutadapt >= 2.10
+- matplotlib >= 2.2.2
+- numpy >= 1.12.1
+- pandas >= 0.23.0
+- pysam >= 0.20.0
+- scipy >= 1.1.0
+- seaborn >= 0.9
+- statannot = 0.2.3
+- tqdm >= 4.64.0
 
 ## Docker
 If you have any concerns about environment setup, feel free to use the Docker version directly.

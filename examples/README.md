@@ -7,7 +7,7 @@ You can download and unzip input file with SRAtoolkit in `bio_tool/`:
 ```
 cd examples
 wget https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR6512652/SRR6512652
-bio_tool/sratoolkit/bin/fastq-dump SRR6512652
+../bio_tool/sratoolkit/bin/fastq-dump SRR6512652
 cd ..
 ```
 
