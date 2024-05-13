@@ -28,11 +28,11 @@ chira/chira_extract.py -l ${F}_quantify_dir/loci.counts -o ${F}_extract_dir/ -f1
 
 if [ $hybrid = 'single' ]; then
     echo singletons to csv
-    python chira/chira_singleprocess.py -i ${f0} -t ${f2} -s ${F}_extract_dir/singletons -o ${F}_extract_dir/${F}_single.csv
+    python chira/chira_singleprocess.py -i ${f0} -t ${f2} -s ${F}_extract_dir/singletons -o ${F}_extract_dir/${F}_chira_single.csv
 
 elif [ $hybrid = 'chimeras' ]; then
     echo chimeras to csv
-    python chira/chira_chimeprocess.py -i1 ${f0} -i2 ${f1} -c ${F}_extract_dir/chimeras -o ${F}_extract_dir/${F}_chimeras.csv
+    python chira/chira_chimeprocess.py -i1 ${f0} -i2 ${f1} -c ${F}_extract_dir/chimeras -o ${F}_extract_dir/${F}_chira_chimeras.csv
 else
     echo unknown type of reads
 fi
