@@ -84,6 +84,7 @@ $ pip install -r requirements.txt
 - seaborn >= 0.9
 - statannot = 0.2.3
 - tqdm >= 4.64.0
+- xlrd >= 1.2.0
 
 ## Docker
 If you have any concerns about environment setup, feel free to use the Docker version directly.
