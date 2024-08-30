@@ -28,15 +28,26 @@ DEL_META=false
 
 # ===========================
 
-echo "Step1. clash analyst"
-cd pipeline/clash_analyst
+# echo "Step1. clash analyst"
+# cd pipeline/clash_analyst
+# # [hyb/clan/chira]
+# TOOL=$4
+# # >>>
+# sh run.sh ${READ} ${REG} ${TAR} ${TOOL} ${DATA}
+# # >>>
+# cd ..
+# OUTPUT=clash_analyst/output/${DATA}_${TOOL}.csv
+
+# # --------------------------
+
+echo "Step1. Preprocess(Trim_galore and De-duplication)"
+cd pipeline/preprocess
 # [hyb/clan/chira]
 TOOL=$4
 # >>>
-sh run.sh ${READ} ${REG} ${TAR} ${TOOL} ${DATA}
+sh run.sh ${READ} ${DATA}
 # >>>
 cd ..
-OUTPUT=clash_analyst/output/${DATA}_${TOOL}.csv
 
 # --------------------------
 
@@ -50,7 +61,7 @@ then
     cd chira
     # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(4)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
     # >>>
-    sh run.sh ${DATA} ../clash_analyst/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18
+    sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18
     # >>>
     cd ..
     TOOL=chira_${HYBRID}
