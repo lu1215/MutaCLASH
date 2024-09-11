@@ -4,8 +4,7 @@
 The **MutaCLASH** project is designed to detect the coordinates of Crosslink Induced Mutation Sites (CIMS) in NGS data. It provides a comprehensive analysis pipeline for identifying mutation sites and binding sites in hybrid-reads derived from CLASH or iCLIP experiments.
 
 ## Features
-- Uses [CLASH Analyst](https://cosbi7.ee.ncku.edu.tw/CLASHanalyst/input/) to preprocess NGS data.
-- Uses [HYB](https://github.com/gkudla/hyb), [CLAN](https://sourceforge.net/projects/clan-mapping) and [ChiRA](https://github.com/pavanvidem/chira) to identify suitable hybrid-reads.
+- Uses [ChiRA](https://github.com/pavanvidem/chira) to identify suitable hybrid-reads.
 - Detects mutation information using [Bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml) and [BWA](https://bio-bwa.sourceforge.net).
 - Utilizes algorithms such as [pirScan](http://cosbi4.ee.ncku.edu.tw/pirScan/), [miRanda](https://bioweb.pasteur.fr/packages/pack@miRanda@3.3a), and [RNAup](https://github.com/ViennaRNA/ViennaRNA) to identify binding sites.
 - Generates visualizations of the distribution of mutations.
