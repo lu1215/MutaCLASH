@@ -18,7 +18,7 @@ sh run.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <ab
 - **input file:** NGS data in FASTQ format.
 - **regulator file**: regulator file in FASTA format.
 - **transcript file**: transcript file in FASTA format.
-- **tool**: Tool used to detect hybrid reads, which can be `chira, hyb, clan`.
+- **tool**: Tool used to detect hybrid reads, which can be `chira`.
 - **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
 - **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA abundance (WAGO-1 IP) in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
 
