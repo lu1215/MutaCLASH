@@ -161,7 +161,10 @@ for mut in ['D', 'M']:
             reg_seq_len = int(max([len(n) for n in data_acc['regulator_seq']]))
             data_acc.reset_index(drop=True, inplace=True)
             del_data = data_acc[~data_acc[mut].astype(str).isin(['[]'])]
-            per_data = data_acc[data_acc[mut].astype(str).isin(['[]'])]
+            # per_data = data_acc[data_acc[mut].astype(str).isin(['[]'])]
+            ## 20240917 changing original per data(hybrid read with no mutation) to hybrid read with mutation(no matter D or M) ##
+            per_data = data_acc[~data_acc['D'].astype(str).isin(['[]']) | ~data_acc['M'].astype(str).isin(['[]'])]
+            ## ---------------------------------------------------------------------------------------------------------------- ##
             del_data.reset_index(drop=True, inplace=True)
             per_data.reset_index(drop=True, inplace=True)
             #print(len(per_data), len(del_data))
@@ -475,9 +478,17 @@ for mut in ['D', 'M']:
                         sd_type = 'one_third'
 
                     if diff:
+                        ## 20240918 add horizontal line to show median of leftmost bar ##
+                        med = np.median(plot_df[plot_df['x'] == 0]['y'].to_numpy())
+                        ax.axhline(med, linestyle='--', label='avg')
+                        ## ----------------------------------------------------------- ##
                         ax.set_title(box)
                         plt.savefig('figure/pairing_ratio_plot/plot_diff/{}_{}_{}_{}_{}_diff_pirScan.{}'.format(d_name, mut, sd_type, rc_type, box, fig_type), bbox_inches='tight')
                     else:
+                        ## 20240918 add horizontal line to show median of leftmost bar ##
+                        med = np.median(plot_df[plot_df['x'] == 0]['y'].to_numpy())
+                        ax.axhline(med, linestyle='--', label='avg')
+                        ## ----------------------------------------------------------- ##
                         ax.set_title(box, y=1.07)
                         ax.axvline(x=0.5,c='k',linestyle='dashed', linewidth=0.7)
                         labels = [item.get_text() for item in ax.get_xticklabels()]
