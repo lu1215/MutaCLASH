@@ -139,7 +139,7 @@ if region_type == 'region':
     data_22g = pd.DataFrmae.from_dict(b, orient='index', columns=['idx', '22G_rc_WT', '22G_rc_MUT'])
     data = pd.merge(data, data_22g, on='idx', how='inner')
     print(len(data))
-    data.to_csv('add_22g_info/22g_'+region_type+'_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+    data.to_csv('add_22g_info/22g_'+region_type+'_' + clash_result.split('/')[-1].replace(".csv", "") + '.csv', index=False)
     
 if region_type == 'site':
     start = time.time()
@@ -168,7 +168,7 @@ if region_type == 'site':
     stop = time.time()
     print((stop-start)/60)
     #print(data.head())
-    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].replace(".csv", "") + '.csv', index=False)
 
 if region_type == 'up':
     start = time.time()
@@ -197,7 +197,7 @@ if region_type == 'up':
     stop = time.time()
     print((stop-start)/60)
     #print(data.head())
-    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].replace(".csv", "") + '.csv', index=False)
 
 if region_type == 'mir':
     start = time.time()
@@ -226,12 +226,12 @@ if region_type == 'mir':
     stop = time.time()
     print((stop-start)/60)
     #print(data.head())
-    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+    data.to_csv('add_22g_info/22g_'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].replace(".csv", "") + '.csv', index=False)
 
 if region_type == 'abu':
     print(region_type)
     abu = abu[abu['Gene name'].isin(list(set(data['transcript_name'])))]
     data = pd.merge(data, abu, left_on='transcript_name', right_on='Gene name', how='outer')
-    data.to_csv('add_abu_info/'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].split('.')[0] + '.csv', index=False)
+    data.to_csv('add_abu_info/'+region_type+'_'+ str(ex_len) + '_' + clash_result.split('/')[-1].replace(".csv", "") + '.csv', index=False)
 
 
