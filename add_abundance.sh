@@ -1,3 +1,13 @@
+#!/bin/bash
+# ===========================
+# Main Arguments
+# <read name>: the name of NGS data
+# <input file>: NGS data after processed by MutaCLASH.sh in csv format.
+# <regulator file>: regulator file in CSV format.
+# <transcript file>: transcript file in CSV format.
+# <abundance analysis type>: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+# Full Documentation: https://github.com/RyanCCJ/MutaCLASH
+# ===========================
 # ex: sh add_abundance.sh <read name> <input file> <regulator file> <transcript file> <abundance analysis type>
 
 # read name

@@ -1,4 +1,14 @@
-# ex: sh add_abundance.sh <read name> <input file> <transcript file> <algorithm> <regulator type> <abundance analysis type> <figure type>
+#!/bin/bash
+# ===========================
+# Main Arguments
+# <read name>: the name of NGS data
+# <input file>: NGS data after processed by MutaCLASH.sh and add_abundance.sh in CSV format.
+# <transcript file>: transcript file in CSV format.
+# <algorithm>: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
+# <abundance analysis type>: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+# Full Documentation: https://github.com/RyanCCJ/MutaCLASH
+# ===========================
+# ex: sh add_abundance.sh <read name> <input file> <transcript file> <algorithm> <abundance analysis type>
 
 # read name
 DATA=$1
