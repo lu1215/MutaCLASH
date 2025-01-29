@@ -10,9 +10,46 @@ The **MutaCLASH** project is designed to detect the coordinates of Crosslink Ind
 - Generates visualizations of the distribution of mutations.
 
 ## Usage
-To run the MutaCLASH pipeline, execute the following command:
+### MutaCLASH.sh
+To run only MutaCLASH pipeline, execute the following command:
 ```bash
-sh run.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <abundance analysis type>
+sh MutaCLASH.sh <input file> <regulator file> <transcript file> <tool> <algorithm>
+```
+- **<input file>**: NGS data in FASTQ format.
+- **<regulator file>**: regulator file in FASTA format.
+- **<transcript file>**: transcript file in FASTA format.
+- **<tool>**: Tool used to detect hybrid reads, which can be "chira".
+
+MutaCLASH.sh will generate a .csv file with `hybrid_seq,transcript_name,regulator_name,rem_tran_target_pos,remain_pos,on_reg_pos,reg_hyb_target_pos,remain_seq,regulator_seq,pirscan_target_endpos,targeting_score,raw_regulator_seq,idx,read_count,hybrid0,D,M,count,nor_readcount,nor_count,overlap,mir_init_pos,mir_end_pos,mir_energy,mir_score,mir_target_pos,mir_transcript_seq,mir_regulator_seq,up_init_pos,up_end_pos,RNAup_regulator_seq,RNAup_transcript_seq,RNAup_target_pos,RNAup_score,pirscan_target_pos,pir_target_mRNA_region,mRNA_len,hybrid_read,A` columns
+
+### add_abundance.sh
+```bash
+sh add_abundance.sh <read name> <input file> <regulator file> <transcript file> <abundance analysis type>
+```
+- **<read name>**: the name of NGS data
+- **<input file>**: NGS data after processed by MutaCLASH.sh in csv format.
+- **<regulator file>**: regulator file in CSV format.
+- **<transcript file>**: transcript file in CSV format.
+- **<abundance analysis type>**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+
+add_abundance.sh will generate a .csv file and add abundance information columns.
+
+### generate_figure.sh
+```bash
+ex: sh generate_figure.sh <read name> <input file> <transcript file> <algorithm> <abundance analysis type>
+```
+- **<read name>**: the name of NGS data
+- **<input file>**: NGS data after processed by MutaCLASH.sh and add_abundance.sh in CSV format.
+- **<transcript file>**: transcript file in CSV format.
+- **<algorithm>**: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
+- **<abundance analysis type>**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+
+generate_figure.sh will generate figure results.
+
+### run_all.sh
+To run the MutaCLASH pipeline, get abundance information and see figure result, execute the following command:
+```bash
+sh run_all.sh <input file> <regulator file> <transcript file> <tool> <algorithm> <abundance analysis type>
 ```
 - **input file:** NGS data in FASTQ format.
 - **regulator file**: regulator file in FASTA format.

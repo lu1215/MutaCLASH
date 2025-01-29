@@ -5,9 +5,8 @@
 # <regulator file>: regulator file in FASTA format.
 # <transcript file>: transcript file in FASTA format.
 # <tool>: Tool used to detect hybrid reads, which can be "chira", "hyb", "clan".
-# <algorithm>: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
 # Full Documentation: https://github.com/RyanCCJ/MutaCLASH
-# ex: sh MutaCLASH.sh <input file> <regulator file> <transcript file> <tool> <algorithm>
+# ex: sh MutaCLASH.sh <input file> <regulator file> <transcript file> <tool>
 # ===========================
 
 # read path
@@ -134,7 +133,6 @@ echo Read File: $1 >> ${cmd_log}
 echo Regulator File: $2 >> ${cmd_log}
 echo Transcript File: $3 >> ${cmd_log}
 echo Tool: $4 >> ${cmd_log}
-echo Algorithm: $5 >> ${cmd_log}
 
 if [ $DEL_META = true ]
 then

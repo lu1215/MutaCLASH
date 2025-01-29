@@ -62,7 +62,7 @@ cd ..
 echo "Step2. collect files"
 cd ..
 echo $(pwd)
-DIR=${DATA}_$(date +%Y-%m-%d_%H-%M-%S)
+DIR=${DATA}_$(date +%Y-%m-%d_%H-%M-%S)_abundance
 mkdir data/output/${DIR}
 mkdir data/output/${DIR}/log
 cp pipeline/${OUTPUT} data/output/${DIR}/
