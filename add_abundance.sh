@@ -68,10 +68,10 @@ mkdir data/output/${DIR}/log
 cp pipeline/${OUTPUT} data/output/${DIR}/
 cmd_log=data/output/${DIR}/log/${DATA}_command.log
 touch ${cmd_log}
-echo Read File: $1 >> ${cmd_log}
-echo Regulator File: $2 >> ${cmd_log}
-echo Transcript File: $3 >> ${cmd_log}
-echo Abundance Analysis Type: $6 >> ${cmd_log}
+echo Read File: $2 >> ${cmd_log}
+echo Regulator File: $3 >> ${cmd_log}
+echo Transcript File: $4 >> ${cmd_log}
+echo Abundance Analysis Type: $TYPE >> ${cmd_log}
 
 if [ $DEL_META = true ]
 then

@@ -56,8 +56,7 @@ cp -r pipeline/generate_figure/figure data/output/${DIR}/
 cp -r pipeline/generate_figure/log data/output/${DIR}/
 cmd_log=data/output/${DIR}/log/${DATA}_command.log
 touch ${cmd_log}
-echo Read File: $1 >> ${cmd_log}
-echo Regulator File: $2 >> ${cmd_log}
+echo Read File: $2 >> ${cmd_log}
 echo Transcript File: $3 >> ${cmd_log}
 echo Algorithm: $4 >> ${cmd_log}
 echo Abundance Analysis Type: $5 >> ${cmd_log}
