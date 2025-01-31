@@ -26,11 +26,11 @@ MutaCLASH.sh will generate a .csv file with `hybrid_seq,transcript_name,regulato
 ```bash
 sh add_abundance.sh <read name> <input file> <regulator file> <transcript file> <abundance analysis type>
 ```
-- **<read name>**: the name of NGS data
-- **<input file>**: NGS data after processed by MutaCLASH.sh in csv format.
-- **<regulator file>**: regulator file in CSV format.
-- **<transcript file>**: transcript file in CSV format.
-- **<abundance analysis type>**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+- **read name**: the name of NGS data
+- **input file**: NGS data after processed by MutaCLASH.sh in csv format.
+- **regulator file**: regulator file in CSV format.
+- **transcript file**: transcript file in CSV format.
+- **abundance analysis type**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
 
 add_abundance.sh will generate a .csv file and add abundance information columns.
 
@@ -38,11 +38,11 @@ add_abundance.sh will generate a .csv file and add abundance information columns
 ```bash
 ex: sh generate_figure.sh <read name> <input file> <transcript file> <algorithm> <abundance analysis type>
 ```
-- **<read name>**: the name of NGS data
-- **<input file>**: NGS data after processed by MutaCLASH.sh and add_abundance.sh in CSV format.
-- **<transcript file>**: transcript file in CSV format.
-- **<algorithm>**: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
-- **<abundance analysis type>**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
+- **read name**: the name of NGS data
+- **input file**: NGS data after processed by MutaCLASH.sh and add_abundance.sh in CSV format.
+- **transcript file**: transcript file in CSV format.
+- **algorithm**: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
+- **abundance analysis type**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
 
 generate_figure.sh will generate figure results.
 
