@@ -15,10 +15,10 @@ To run only MutaCLASH pipeline, execute the following command:
 ```bash
 sh MutaCLASH.sh <input file> <regulator file> <transcript file> <tool> <algorithm>
 ```
-- **<input file>**: NGS data in FASTQ format.
-- **<regulator file>**: regulator file in FASTA format.
-- **<transcript file>**: transcript file in FASTA format.
-- **<tool>**: Tool used to detect hybrid reads, which can be "chira".
+- **input file**: NGS data in FASTQ format.
+- **regulator file**: regulator file in FASTA format.
+- **transcript file**: transcript file in FASTA format.
+- **tool**: Tool used to detect hybrid reads, which can be "chira".
 
 MutaCLASH.sh will generate a .csv file with `hybrid_seq,transcript_name,regulator_name,rem_tran_target_pos,remain_pos,on_reg_pos,reg_hyb_target_pos,remain_seq,regulator_seq,pirscan_target_endpos,targeting_score,raw_regulator_seq,idx,read_count,hybrid0,D,M,count,nor_readcount,nor_count,overlap,mir_init_pos,mir_end_pos,mir_energy,mir_score,mir_target_pos,mir_transcript_seq,mir_regulator_seq,up_init_pos,up_end_pos,RNAup_regulator_seq,RNAup_transcript_seq,RNAup_target_pos,RNAup_score,pirscan_target_pos,pir_target_mRNA_region,mRNA_len,hybrid_read,A` columns
 
