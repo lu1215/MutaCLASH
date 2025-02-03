@@ -42,7 +42,7 @@ DEL_META=false
 echo "Step1. Preprocess(Trim_galore and De-duplication)"
 cd pipeline/preprocess
 # [hyb/clan/chira]
-TOOL=$4
+TOOL="chira"
 # >>>
 sh run.sh ${READ} ${DATA}
 # >>>
@@ -132,7 +132,7 @@ touch ${cmd_log}
 echo Read File: $1 >> ${cmd_log}
 echo Regulator File: $2 >> ${cmd_log}
 echo Transcript File: $3 >> ${cmd_log}
-echo Tool: $4 >> ${cmd_log}
+echo Tool: $TOOL >> ${cmd_log}
 
 if [ $DEL_META = true ]
 then
