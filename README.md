@@ -13,7 +13,7 @@ The **MutaCLASH** project is designed to detect the coordinates of Crosslink Ind
 ### MutaCLASH.sh
 To run only MutaCLASH pipeline, execute the following command:
 ```bash
-sh --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
+sh  --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
 ```
 **required arguments:**
 - **input file**: NGS data in FASTQ format.
