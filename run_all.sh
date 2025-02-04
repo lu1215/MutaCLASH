@@ -80,7 +80,7 @@ sed -i "/^link=/c\link=$link" preprocess.conf || echo "link=$link" >> preprocess
 sed -i "/^trim=/c\trim=$trim" preprocess.conf || echo "trim=$trim" >> preprocess.conf
 
 # Check if required parameters are provided
-if [ -z "$input_file" ] || [ -z "$regulator_file" ] || [ -z "$transcript_file" ]; then
+if [ -z "$input_file" ] || [ -z "$regulator_file" ] || [ -z "$transcript_file" ] || [-z "$algorithm"] || [-z "$abundance_type"]; then
     echo "Error: Missing required arguments."
     usage
 fi

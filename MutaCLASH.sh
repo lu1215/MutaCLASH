@@ -69,6 +69,12 @@ sed -i "/^slen=/c\slen=$slen" preprocess.conf || echo "slen=$slen" >> preprocess
 sed -i "/^link=/c\link=$link" preprocess.conf || echo "link=$link" >> preprocess.conf
 sed -i "/^trim=/c\trim=$trim" preprocess.conf || echo "trim=$trim" >> preprocess.conf
 
+# Check if required parameters are provided
+if [ -z "$input_file" ] || [ -z "$regulator_file" ] || [ -z "$transcript_file" ]; then
+    echo "Error: Missing required arguments."
+    usage
+fi
+
 # read path
 READ=../../$input_file
 # regulator path
