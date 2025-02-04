@@ -21,46 +21,25 @@ sh MutaCLASH.sh <input file> <regulator file> <transcript file>
 
 MutaCLASH.sh will generate a .csv file with `hybrid_seq,transcript_name,regulator_name,rem_tran_target_pos,remain_pos,on_reg_pos,reg_hyb_target_pos,remain_seq,regulator_seq,pirscan_target_endpos,targeting_score,raw_regulator_seq,idx,read_count,hybrid0,D,M,count,nor_readcount,nor_count,overlap,mir_init_pos,mir_end_pos,mir_energy,mir_score,mir_target_pos,mir_transcript_seq,mir_regulator_seq,up_init_pos,up_end_pos,RNAup_regulator_seq,RNAup_transcript_seq,RNAup_target_pos,RNAup_score,pirscan_target_pos,pir_target_mRNA_region,mRNA_len,hybrid_read,A` columns
 
-### add_abundance.sh
-```bash
-sh add_abundance.sh <read name> <input file> <regulator file> <transcript file> <abundance analysis type>
-```
-- **read name**: the name of NGS data
-- **input file**: NGS data after processed by MutaCLASH.sh in csv format.
-- **regulator file**: regulator file in CSV format.
-- **transcript file**: transcript file in CSV format.
-- **abundance analysis type**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
-
-add_abundance.sh will generate a .csv file and add abundance information columns.
-
-### generate_figure.sh
-```bash
-ex: sh generate_figure.sh <read name> <input file> <transcript file> <algorithm> <abundance analysis type>
-```
-- **read name**: the name of NGS data
-- **input file**: NGS data after processed by MutaCLASH.sh and add_abundance.sh in CSV format.
-- **transcript file**: transcript file in CSV format.
-- **algorithm**: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
-- **abundance analysis type**: Method used to analyze abundance, which can be "abu", "region", "site", "up".
-
-generate_figure.sh will generate figure results.
-
 ### run_all.sh
 To run the MutaCLASH pipeline, get abundance information and see figure result, execute the following command:
 ```bash
-sh run_all.sh <input file> <regulator file> <transcript file> <algorithm> <abundance analysis type>
+sh run_all.sh --input <input file> --regulator <regulator file> --transcript <transcript file> --algorithm <algorithm> --abundance_type <abundance analysis type> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
 ```
+**required arguments:**
 - **input file:** NGS data in FASTQ format.
 - **regulator file**: regulator file in FASTA format.
 - **transcript file**: transcript file in FASTA format.
 - **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
 - **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA abundance (WAGO-1 IP) in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
+**optional arguments(preprocessing):**
+- **len**: Minimum hybrid length (default: 17).
+- **slen**: Maximum hybrid length (default: 70).
+- **link**: Adapter sequence (default: "None").
+- **trim**: Phred score (default: 30).
 
 After executing the command, the pipeline will run and complete all the necessary steps. Please refer to the [examples](https://github.com/RyanCCJ/MutaCLASH/tree/master/examples) we provided.
 
-### Preprocessing Configuration
-
-By default, the built-in [Trim Galore](https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/) tool within CLASH Analyst is utilized for quality trimming (Q=30) and adapter trimming (auto detect), with a default length range of 17-70nt. To modify the preprocessing settings, please adjust the configuration in `preprocess.conf` accordingly.
 
 ## Output
 The output files are stored in the `data/output/` directory. The directory contains the following files:
