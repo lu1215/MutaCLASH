@@ -14,15 +14,11 @@
 # Full Documentation: https://github.com/RyanCCJ/MutaCLASH
 # ===========================
 
-# Default preprocessing parameter values
-len=17
-slen=70
-link="None"
-trim=30
-
+# example: sh run_additional.sh --input PRG-1
+# example: sh run_additional.sh --input ALG-1
 # Function to display usage instructions
 usage() {
-    echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> --algorithm <algorithm> --abundance_type <abundance analysis type> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]"
+    echo "Usage: $0 --input <input file>"
     exit 1
 }
 
@@ -33,38 +29,6 @@ while [ $# -gt 0 ]; do
             input_file="$2"
             shift 2
             ;;
-        --regulator)
-            regulator_file="$2"
-            shift 2
-            ;;
-        --transcript)
-            transcript_file="$2"
-            shift 2
-            ;;
-        --algorithm)
-            algorithm="$2"
-            shift 2
-            ;;
-        --abundance_type)
-            abundance_type="$2"
-            shift 2
-            ;;
-        --len)
-            len="$2"
-            shift 2
-            ;;
-        --slen)
-            slen="$2"
-            shift 2
-            ;;
-        --link)
-            link="$2"
-            shift 2
-            ;;
-        --trim)
-            trim="$2"
-            shift 2
-            ;;
         *)
             echo "Unknown parameter: $1"
             usage
@@ -72,21 +36,75 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-# write preprocessing parameter to preprocess.conf
-# Use sed to update variables in-place, or append if not found
-sed -i "/^len=/c\len=$len" preprocess.conf || echo "len=$len" >> preprocess.conf
-sed -i "/^slen=/c\slen=$slen" preprocess.conf || echo "slen=$slen" >> preprocess.conf
-sed -i "/^link=/c\link=$link" preprocess.conf || echo "link=$link" >> preprocess.conf
-sed -i "/^trim=/c\trim=$trim" preprocess.conf || echo "trim=$trim" >> preprocess.conf
-
 # Check if required parameters are provided
-if [ -z "$input_file" ] || [ -z "$regulator_file" ] || [ -z "$transcript_file" ] || [ -z "$algorithm" ] || [ -z "$abundance_type" ]; then
+if [ -z "$input_file" ]; then
     echo "Error: Missing required arguments."
     usage
 fi
 
+# Check if input file is valid
+if [ "$input_file" != "PRG-1" ] && [ "$input_file" != "ALG-1" ]; then
+    echo "Error: Invalid input file. Please provide a valid input file.(PRG-1 or ALG-1)"
+    usage
+fi
+
+# Default parameters for Tool
+TOOL="chira"
+
+# before start the program, please make sure the following files are in the correct path:
+# PRG-1 or ALG-1 NGS data in csv format( after processed by MutaCLASH.sh ) in data/input/
+if [ "$input_file" = "PRG-1" ]; then
+    input_path="data/input/PRG-1.csv"
+    regulator_file="data/reference/piRNA_WS275.fa"
+    transcript_file="data/reference/mRNA_WS275.fa"
+    REGION=10/0/-15/-30
+    algorithm="pirScan"
+    abundance_type="site"
+elif [ "$input_file" = "ALG-1" ]; then
+    input_path="data/input/ALG-1.csv"
+    regulator_file="data/reference/miRNA_WS275.fa"
+    transcript_file="data/reference/mRNA_WS275.fa"
+    REGION=200/140/100/60
+    algorithm="miRanda"
+    abundance_type="abu"
+fi
+
+# change back the column names
+sed -i \
+    -e '1s|CLASH read sequence|hybrid_seq|' \
+    -e '1s|read count|read_count|' \
+    -e '1s|Regulator RNA Name|regulator_name|' \
+    -e '1s|Target RNA Name|transcript_name|' \
+    -e '1s|Target RNA Region Found in CLASH Read|rem_tran_target_pos|' \
+    -e '1s|Regulator RNA Region Found in CLASH Read|reg_hyb_target_pos|' \
+    -e '1s|Region on CLASH Read identified as Regulator RNA|on_reg_pos|' \
+    -e '1s|Region on CLASH Read identified as Target RNA|remain_pos|' \
+    -e '1s|pirScan score|targeting_score|' \
+    -e '1s|miRanda score|mir_score|' \
+    -e '1s|Extended Clash Identified Region Start Position (miRanda)|mir_init_pos|' \
+    -e '1s|Extended Clash Identified Region End Position (miRanda)|mir_end_pos|' \
+    -e '1s|miRanda Defined Binding Region (Relative to Extended Clash Identified Region)|mir_target_pos|' \
+    -e '1s|Transcript Binding Sequence (miRanda)|mir_transcript_seq|' \
+    -e '1s|Regulator Binding Sequence (miRanda)|mir_regulator_seq|' \
+    -e '1s|Extended Clash Identified Region Start Position (RNAup)|up_init_pos|' \
+    -e '1s|Extended Clash Identified Region End Position (RNAup)|up_end_pos|' \
+    -e '1s|Transcript Binding Sequence (RNAup)|RNAup_transcript_seq|' \
+    -e '1s|Regulator Binding Sequence (RNAup)|RNAup_regulator_seq|' \
+    -e '1s|RNAup Defined Binding Region (Relative to Clash Identified Region)|RNAup_target_pos|' \
+    -e '1s|RNAup Binding Energy|RNAup_score|' \
+    -e '1s|Deletion Sites on mRNA (Absolute Positions)|D|' \
+    -e '1s|Mismatch Sites on mRNA (Absolute Positions)|M|' \
+    -e '1s|Site-Level Preprocessing (Read Count = 1)|count|' \
+    -e '1s|Normalized Read Count (After Read Deduplication)|Nor_readcount|' \
+    -e '1s|Normalized Count (After Read Deduplication)|Nor_count|' \
+    -e '1s|Overlapping Region Between Regulator and Transcript (Hybrid Read Coordinates)|Overlap|' \
+    -e '1s|mRNA Length|mRNA_len|' \
+    -e '1s|Transcript-Regulator Pair (For Pair Counting)|Hybrid_read|' \
+    -e '1s|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|,A|' \
+    $input_path
+
 # read path
-READ=../../$input_file
+READ=../../$input_path
 # regulator path
 REG=../../$regulator_file
 # target path
@@ -94,6 +112,8 @@ TAR=../../$transcript_file
 # data base name
 DATA=$(basename ${READ})
 DATA=${DATA%.*}
+REG=${REG%.*}.csv
+TAR=${TAR%.*}.csv
 
 # remove metadatas
 DEL_META=false
@@ -101,101 +121,10 @@ DEL_META=false
 # set environment
 . ./environment.sh
 
-# ===========================
-
-# echo "Step1. clash analyst"
-# cd pipeline/clash_analyst
-# # [hyb/clan/chira]
-# TOOL=$4
-# # >>>
-# sh run.sh ${READ} ${REG} ${TAR} ${TOOL} ${DATA}
-# # >>>
-# cd ..
-# OUTPUT=clash_analyst/output/${DATA}_${TOOL}.csv
-
-# # --------------------------
-
-echo "Step1. Preprocess(Trim_galore and De-duplication)"
-cd pipeline/preprocess
-# [hyb/clan/chira]
-TOOL="chira"
-# >>>
-sh run.sh ${READ} ${DATA}
-# >>>
-cd ..
-
 # --------------------------
 
-echo "Step2. chira"
-
-# [single/chimeras]
-HYBRID=chimeras
-
-if [ $TOOL = "chira" ]
-then
-    cd chira
-    # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(4)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
-    # >>>
-    sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18
-    # >>>
-    cd ..
-    TOOL=chira_${HYBRID}
-    BWA_OUTPUT=chira/${DATA}_map_dir/sorted.bam
-    OUTPUT=chira/${DATA}_extract_dir/${DATA}_${TOOL}.csv
-fi
-
-# --------------------------
-
-echo "Step3. find deletion"
-cd find_deletion
-# >>>
-sh run.sh ${TOOL} ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR}
-# >>>
-cd ..
-OUTPUT=find_deletion/ALL_output/${DATA}_${TOOL}_step1.csv
-
-# --------------------------
-
-echo "Step4. predict site"
-cd predict_site
-REG=${REG%.*}.csv
-TAR=${TAR%.*}.csv
-# [n/extend_length]
-EXTEND=n
-
-# pirScan
-# >>>
-sh run_pirScan.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
-# >>>
-OUTPUT=predict_site/scan_output/${DATA}_${TOOL}_step1_scan.csv
-
-# miRanda
-# >>>
-sh run_miRanda.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
-# >>>
-OUTPUT=predict_site/mir_output/${DATA}_${TOOL}_step1_scan_mir.csv
-
-# RNAup
-# >>>
-sh run_RNAup.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
-# >>>
-OUTPUT=predict_site/up_output/${DATA}_${TOOL}_step1_scan_mir_RNAup.csv
-cd ..
-
-# --------------------------
-
-echo "Step5. data processing"
-cd data_processing
-# >>>
-sh run.sh ../${OUTPUT} ${TAR}
-# >>>
-OUTPUT=data_processing/after_preprocess/${DATA}_${TOOL}_step1_scan_mir_RNAup_final.csv
-cd ..
-
-# --------------------------
-
-echo "Step6. add abundance"
-cd add_abundance
+echo "Step1. add abundance"
+cd pipeline/add_abundance
 # [n/extend_length]
 EXTEND=25
 # [region/site/up/abu]
@@ -206,20 +135,20 @@ else
     TYPE=none
 fi
 # >>>
-sh run.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND} ${TYPE}
+sh run.sh ../../${input_path} ${REG} ${TAR} ${EXTEND} ${TYPE}
 # >>>
 if [ $TYPE = "abu" ]
 then
-    OUTPUT=add_abundance/add_abu_info/abu_${EXTEND}_${DATA}_${TOOL}_step1_scan_mir_RNAup_final.csv
+    OUTPUT=add_abundance/add_abu_info/abu_${EXTEND}_${DATA}.csv
 elif [ $TYPE = "region" ] || [ $TYPE = "site" ] || [ $TYPE = "up" ]
 then
-    OUTPUT=add_abundance/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}_${TOOL}_step1_scan_mir_RNAup_final.csv
+    OUTPUT=add_abundance/add_22g_info/22g_${TYPE}_${EXTEND}_${DATA}.csv
 fi
 cd ..
 
 # --------------------------
 
-echo "Step7. generate figure"
+echo "Step2. generate figure"
 cd generate_figure
 # [pirScan/miRanda/RNAup]
 Algorithm=$algorithm
@@ -282,7 +211,7 @@ cp -r pipeline/generate_figure/log data/output/${DIR}/
 cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/
 cmd_log=data/output/${DIR}/log/${DATA}_command.log
 touch ${cmd_log}
-echo Read File: $input_file >> ${cmd_log}
+echo Read File: $input_path >> ${cmd_log}
 echo Regulator File: $regulator_file >> ${cmd_log}
 echo Transcript File: $transcript_file >> ${cmd_log}
 echo Tool: $TOOL >> ${cmd_log}
