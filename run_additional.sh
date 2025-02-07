@@ -70,38 +70,38 @@ elif [ "$input_file" = "ALG-1" ]; then
 fi
 
 # change back the column names
-sed -i \
-    -e '1s|CLASH read sequence|hybrid_seq|' \
-    -e '1s|read count|read_count|' \
-    -e '1s|Regulator RNA Name|regulator_name|' \
-    -e '1s|Target RNA Name|transcript_name|' \
-    -e '1s|Target RNA Region Found in CLASH Read|rem_tran_target_pos|' \
-    -e '1s|Regulator RNA Region Found in CLASH Read|reg_hyb_target_pos|' \
-    -e '1s|Region on CLASH Read identified as Regulator RNA|on_reg_pos|' \
-    -e '1s|Region on CLASH Read identified as Target RNA|remain_pos|' \
-    -e '1s|pirScan score|targeting_score|' \
-    -e '1s|miRanda score|mir_score|' \
-    -e '1s|Extended Clash Identified Region Start Position (miRanda)|mir_init_pos|' \
-    -e '1s|Extended Clash Identified Region End Position (miRanda)|mir_end_pos|' \
-    -e '1s|miRanda Defined Binding Region (Relative to Extended Clash Identified Region)|mir_target_pos|' \
-    -e '1s|Transcript Binding Sequence (miRanda)|mir_transcript_seq|' \
-    -e '1s|Regulator Binding Sequence (miRanda)|mir_regulator_seq|' \
-    -e '1s|Extended Clash Identified Region Start Position (RNAup)|up_init_pos|' \
-    -e '1s|Extended Clash Identified Region End Position (RNAup)|up_end_pos|' \
-    -e '1s|Transcript Binding Sequence (RNAup)|RNAup_transcript_seq|' \
-    -e '1s|Regulator Binding Sequence (RNAup)|RNAup_regulator_seq|' \
-    -e '1s|RNAup Defined Binding Region (Relative to Clash Identified Region)|RNAup_target_pos|' \
-    -e '1s|RNAup Binding Energy|RNAup_score|' \
-    -e '1s|Deletion Sites on mRNA (Absolute Positions)|D|' \
-    -e '1s|Mismatch Sites on mRNA (Absolute Positions)|M|' \
-    -e '1s|Site-Level Preprocessing (Read Count = 1)|count|' \
-    -e '1s|Normalized Read Count (After Read Deduplication)|Nor_readcount|' \
-    -e '1s|Normalized Count (After Read Deduplication)|Nor_count|' \
-    -e '1s|Overlapping Region Between Regulator and Transcript (Hybrid Read Coordinates)|Overlap|' \
-    -e '1s|mRNA Length|mRNA_len|' \
-    -e '1s|Transcript-Regulator Pair (For Pair Counting)|Hybrid_read|' \
-    -e '1s|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|,A|' \
-    $input_path
+# sed -i \
+#     -e '1s|CLASH read sequence|hybrid_seq|' \
+#     -e '1s|read count|read_count|' \
+#     -e '1s|Regulator RNA Name|regulator_name|' \
+#     -e '1s|Target RNA Name|transcript_name|' \
+#     -e '1s|Target RNA Region Found in CLASH Read|rem_tran_target_pos|' \
+#     -e '1s|Regulator RNA Region Found in CLASH Read|reg_hyb_target_pos|' \
+#     -e '1s|Region on CLASH Read identified as Regulator RNA|on_reg_pos|' \
+#     -e '1s|Region on CLASH Read identified as Target RNA|remain_pos|' \
+#     -e '1s|pirScan score|targeting_score|' \
+#     -e '1s|miRanda score|mir_score|' \
+#     -e '1s|Extended Clash Identified Region Start Position (miRanda)|mir_init_pos|' \
+#     -e '1s|Extended Clash Identified Region End Position (miRanda)|mir_end_pos|' \
+#     -e '1s|miRanda Defined Binding Region (Relative to Extended Clash Identified Region)|mir_target_pos|' \
+#     -e '1s|Transcript Binding Sequence (miRanda)|mir_transcript_seq|' \
+#     -e '1s|Regulator Binding Sequence (miRanda)|mir_regulator_seq|' \
+#     -e '1s|Extended Clash Identified Region Start Position (RNAup)|up_init_pos|' \
+#     -e '1s|Extended Clash Identified Region End Position (RNAup)|up_end_pos|' \
+#     -e '1s|Transcript Binding Sequence (RNAup)|RNAup_transcript_seq|' \
+#     -e '1s|Regulator Binding Sequence (RNAup)|RNAup_regulator_seq|' \
+#     -e '1s|RNAup Defined Binding Region (Relative to Clash Identified Region)|RNAup_target_pos|' \
+#     -e '1s|RNAup Binding Energy|RNAup_score|' \
+#     -e '1s|Deletion Sites on mRNA (Absolute Positions)|D|' \
+#     -e '1s|Mismatch Sites on mRNA (Absolute Positions)|M|' \
+#     -e '1s|Site-Level Preprocessing (Read Count = 1)|count|' \
+#     -e '1s|Normalized Read Count (After Read Deduplication)|Nor_readcount|' \
+#     -e '1s|Normalized Count (After Read Deduplication)|Nor_count|' \
+#     -e '1s|Overlapping Region Between Regulator and Transcript (Hybrid Read Coordinates)|Overlap|' \
+#     -e '1s|mRNA Length|mRNA_len|' \
+#     -e '1s|Transcript-Regulator Pair (For Pair Counting)|Hybrid_read|' \
+#     -e '1s|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|,A|' \
+#     $input_path
 
 # read path
 READ=../../$input_path
@@ -173,6 +173,11 @@ mkdir data/output/${DIR}
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
 # rename name of columns in data/output/${DIR}/${DATA}.csv
+cp data/output/${DIR}/${DATA}.csv data/output/${DIR}/${DATA}_short.csv
+
+python FilterReorderCsv.py data/output/${DIR}/${DATA}_short.csv data/output/${DIR}/${DATA}_short.csv
+
+# rename name of columns in data/output/${DIR}/${DATA}.csv
 sed -i \
     -e '1s|hybrid_seq|CLASH read sequence|' \
     -e '1s|read_count|read count|' \
@@ -187,24 +192,24 @@ sed -i \
     -e '1s|mir_init_pos|Extended Clash Identified Region Start Position (miRanda)|' \
     -e '1s|mir_end_pos|Extended Clash Identified Region End Position (miRanda)|' \
     -e '1s|mir_target_pos|miRanda Defined Binding Region (Relative to Extended Clash Identified Region)|' \
-    -e '1s|mir_transcript_seq|Transcript Binding Sequence (miRanda)|' \
+    -e '1s|mir_transcript_seq|Target Binding Sequence (miRanda)|' \
     -e '1s|mir_regulator_seq|Regulator Binding Sequence (miRanda)|' \
     -e '1s|up_init_pos|Extended Clash Identified Region Start Position (RNAup)|' \
     -e '1s|up_end_pos|Extended Clash Identified Region End Position (RNAup)|' \
-    -e '1s|RNAup_transcript_seq|Transcript Binding Sequence (RNAup)|' \
+    -e '1s|RNAup_transcript_seq|Target Binding Sequence (RNAup)|' \
     -e '1s|RNAup_regulator_seq|Regulator Binding Sequence (RNAup)|' \
     -e '1s|RNAup_target_pos|RNAup Defined Binding Region (Relative to Clash Identified Region)|' \
     -e '1s|RNAup_score|RNAup Binding Energy|' \
     -e '1s|D|Deletion Sites on mRNA (Absolute Positions)|' \
     -e '1s|M|Mismatch Sites on mRNA (Absolute Positions)|' \
-    -e '1s|count|Site-Level Preprocessing (Read Count = 1)|' \
     -e '1s|Nor_readcount|Normalized Read Count (After Read Deduplication)|' \
     -e '1s|Nor_count|Normalized Count (After Read Deduplication)|' \
     -e '1s|Overlap|Overlapping Region Between Regulator and Transcript (Hybrid Read Coordinates)|' \
     -e '1s|mRNA_len|mRNA Length|' \
     -e '1s|Hybrid_read|Transcript-Regulator Pair (For Pair Counting)|' \
     -e '1s|,A|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|' \
-    data/output/${DIR}/${DATA}.csv
+    -e '1s|mir_energy|Binding Energy Calculated by miRanda|' \
+    data/output/${DIR}/${DATA}_short.csv
 
 cp -r pipeline/generate_figure/figure data/output/${DIR}/
 cp -r pipeline/generate_figure/log data/output/${DIR}/
