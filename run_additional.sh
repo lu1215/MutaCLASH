@@ -167,7 +167,7 @@ cd ../../
 
 # --------------------------
 
-echo "Step8. collect files"
+echo "Step2. collect files"
 DIR=${DATA}_$(date +%Y-%m-%d_%H-%M-%S)
 mkdir data/output/${DIR}
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
