@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 
 ## PRG-1 CLASH Data Processing
-1. **Download the PRG-1.csv file** and place it in the following directory:
+1. **[Download the PRG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/fsdownload/jSirL0jvo/example_data_for_github)** and place it in the following directory:
    ```
    MutaCLASH/data/input
    ```
@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ---
 
 ## ALG-1 CLASH Data Processing
-1. **Download the ALG-1.csv file** and place it in:
+1. **[Download the ALG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/fsdownload/jSirL0jvo/example_data_for_github)** and place it in:
    ```
    MutaCLASH/data/input
    ```
