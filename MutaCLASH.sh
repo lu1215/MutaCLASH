@@ -192,7 +192,7 @@ DIR=${DATA}_$(date +%Y-%m-%d_%H-%M-%S)_MutaCLASH
 mkdir data/output/${DIR}
 mkdir data/output/${DIR}/log
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
-cp data/output/${DIR}/${DATA}_short.csv
+cp data/output/${DIR}/${DATA}.csv data/output/${DIR}/${DATA}_short.csv
 
 python FilterReorderCsv.py data/output/${DIR}/${DATA}_short.csv data/output/${DIR}/${DATA}_short.csv
 
@@ -211,23 +211,23 @@ sed -i \
     -e '1s|mir_init_pos|Extended Clash Identified Region Start Position (miRanda)|' \
     -e '1s|mir_end_pos|Extended Clash Identified Region End Position (miRanda)|' \
     -e '1s|mir_target_pos|miRanda Defined Binding Region (Relative to Extended Clash Identified Region)|' \
-    -e '1s|mir_transcript_seq|Transcript Binding Sequence (miRanda)|' \
+    -e '1s|mir_transcript_seq|Target Binding Sequence (miRanda)|' \
     -e '1s|mir_regulator_seq|Regulator Binding Sequence (miRanda)|' \
     -e '1s|up_init_pos|Extended Clash Identified Region Start Position (RNAup)|' \
     -e '1s|up_end_pos|Extended Clash Identified Region End Position (RNAup)|' \
-    -e '1s|RNAup_transcript_seq|Transcript Binding Sequence (RNAup)|' \
+    -e '1s|RNAup_transcript_seq|Target Binding Sequence (RNAup)|' \
     -e '1s|RNAup_regulator_seq|Regulator Binding Sequence (RNAup)|' \
     -e '1s|RNAup_target_pos|RNAup Defined Binding Region (Relative to Clash Identified Region)|' \
     -e '1s|RNAup_score|RNAup Binding Energy|' \
     -e '1s|D|Deletion Sites on mRNA (Absolute Positions)|' \
     -e '1s|M|Mismatch Sites on mRNA (Absolute Positions)|' \
-    -e '1s|count|Site-Level Preprocessing (Read Count = 1)|' \
     -e '1s|Nor_readcount|Normalized Read Count (After Read Deduplication)|' \
     -e '1s|Nor_count|Normalized Count (After Read Deduplication)|' \
     -e '1s|Overlap|Overlapping Region Between Regulator and Transcript (Hybrid Read Coordinates)|' \
     -e '1s|mRNA_len|mRNA Length|' \
     -e '1s|Hybrid_read|Transcript-Regulator Pair (For Pair Counting)|' \
     -e '1s|,A|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|' \
+    -e '1s|mir_energy|Binding Energy Calculated by miRanda|' \
     data/output/${DIR}/${DATA}_short.csv
 
 cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/

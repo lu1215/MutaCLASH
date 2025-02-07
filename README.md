@@ -29,6 +29,10 @@ sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <
 MutaCLASH.sh will generate two .csv files: one for users to view the results of the MutaCLASH analysis (filename ending with _short), and the other for use with run_additional.sh to generate abundance results and figures.
 
 _short.csv example:
+| CLASH read sequence | Read count | Deletion Sites on mRNA (Absolute Positions) | Mismatch Sites on mRNA (Absolute Positions) | Target RNA Name | Regulator RNA Name | Target RNA Region Found in CLASH Read | Region on CLASH Read identified as Target RNA | Region on CLASH Read identified as Regulator RNA | Regulator RNA Region Found in CLASH Read | pirScan score | Binding Energy Calculated by miRanda | Target Binding Sequence (miRanda) | Regulator Binding Sequence (miRanda) | RNAup Binding Energy | Target Binding Sequence (RNAup) | Regulator Binding Sequence (RNAup) |
+|---------------------|------------|-----------------------------------------------|---------------------------------------------|----------------|----------------|-------------------------------------------|----------------------------------------------|----------------------------------------------|------------------------------------------|-------------|-------------------------------------|----------------------------------|----------------------------------|------------------|--------------------------------|--------------------------------|
+| AAAAACACCGTCTTCCTCCAGTGGAGGCCTGGTTGTTTG | 6 | [] | [] | Y45F10D.12.1 | Y40H7A.12b | 427-446 | 2-21 | 1-18 | 22-39 | -27.5 | -13.83 | --gaAAAC-ACC-GTCTTCCt | cgtgTTTGTTGGTCCGGAGGt | -14.54 | --GAAAAC-ACCGTCTTCCTCCA | CGTGTTTGTTGGT--CCGGAGGT |
+| AAAAACATCCATGCCCTCCAATCGTATTGGAGGCCTGGTTGTTTG | 3 | [] | [334] | C27A2.3.1 | Y40H7A.12b | 320-343 | 1-24 | 1-18 | 28-45 | -28.5 | -19.44 | --AAAAACATCCATGCTCTCCa | cgTGTTTGTTGGT-CCGGAGGt | -18.29 | --AAAAACATCCATGCTCTCCA | CGTGTTTGTTGGTCCG-GAGGT |
 
 
 ### run_additional.sh
