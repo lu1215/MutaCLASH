@@ -192,6 +192,10 @@ DIR=${DATA}_$(date +%Y-%m-%d_%H-%M-%S)_MutaCLASH
 mkdir data/output/${DIR}
 mkdir data/output/${DIR}/log
 cp pipeline/${OUTPUT} data/output/${DIR}/${DATA}.csv
+cp data/output/${DIR}/${DATA}_short.csv
+
+python FilterReorderCsv.py data/output/${DIR}/${DATA}_short.csv data/output/${DIR}/${DATA}_short.csv
+
 # rename name of columns in data/output/${DIR}/${DATA}.csv
 sed -i \
     -e '1s|hybrid_seq|CLASH read sequence|' \
@@ -224,7 +228,7 @@ sed -i \
     -e '1s|mRNA_len|mRNA Length|' \
     -e '1s|Hybrid_read|Transcript-Regulator Pair (For Pair Counting)|' \
     -e '1s|,A|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|' \
-    data/output/${DIR}/${DATA}.csv
+    data/output/${DIR}/${DATA}_short.csv
 
 cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/
 cmd_log=data/output/${DIR}/log/${DATA}_command.log

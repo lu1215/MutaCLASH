@@ -159,7 +159,7 @@ G22_FACTOR=811.03  # WAGO-1_IP WT
 # piRNA: 10/0/-15/-30
 # REGION=10/0/-15/-30
 # [png/svg]
-FIGURE=png
+FIGURE=svg
 # >>>
 sh run.sh ${DATA} ../${OUTPUT} ${Algorithm} ${TYPE} ${G22_FACTOR} ${TAR} ${FIGURE} ${REGION}
 # >>>
@@ -208,7 +208,7 @@ sed -i \
 
 cp -r pipeline/generate_figure/figure data/output/${DIR}/
 cp -r pipeline/generate_figure/log data/output/${DIR}/
-cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/
+# cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/
 cmd_log=data/output/${DIR}/log/${DATA}_command.log
 touch ${cmd_log}
 echo Read File: $input_path >> ${cmd_log}

@@ -26,32 +26,22 @@ sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <
 - **link**: Adapter sequence (default: "None").
 - **trim**: Phred score (default: 30).
 
-MutaCLASH.sh will generate a .csv file with `CLASH read sequence,Target RNA Name,Regulator RNA Name,Target RNA Region Found in CLASH Read,Region on CLASH Read identified as Target RNA,Region on CLASH Read identified as Regulator RNA,Regulator RNA Region Found in CLASH Read,remain_seq,regulator_seq,pirscan_target_endpos,pirScan score,raw_regulator_seq,idx,read Site-Level Preprocessing (Read Count = 1),hybrid0,Deletion Sites on mRNA (Absolute Positions),Mismatch Sites on mRNA (Absolute Positions),count,nor_readcount,nor_count,overlap,Extended Clash Identified Region Start Position (miRanda),Extended Clash Identified Region End Position (miRanda),mir_energy,miRanda score,miRanda Defined Binding Region (Relative to Extended Clash Identified Region),Transcript Binding Sequence (miRanda),Regulator Binding Sequence (miRanda),Extended Clash Identified Region Start Position (RNAup),Extended Clash Identified Region End Position (RNAup),Regulator Binding Sequence (RNAup),Transcript Binding Sequence (RNAup),RNAup Defined Binding Region (Relative to Clash Identified Region),RNAup Binding Energy,pirscan_target_pos,pir_target_mRNA_region,mRNA Length,hybrid_read,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)` columns
+MutaCLASH.sh will generate two .csv files: one for users to view the results of the MutaCLASH analysis (filename ending with _short), and the other for use with run_additional.sh to generate abundance results and figures.
 
-example:
-| CLASH read sequence | Target RNA Name | Regulator RNA Name | Target RNA Region Found in CLASH Read | Region on CLASH Read identified as Target RNA | Region on CLASH Read identified as Regulator RNA | Regulator RNA Region Found in CLASH Read | remain_seq | regulator_seq | pirscan_target_endpos | pirScan score | raw_regulator_seq | idx | read Site-Level Preprocessing (Read Count = 1) | hybrid0 | Deletion Sites on mRNA (Absolute Positions) | Mismatch Sites on mRNA (Absolute Positions) | count | nor_readcount | nor_count | overlap | Extended Clash Identified Region Start Position (miRanda) | Extended Clash Identified Region End Position (miRanda) | mir_energy | miRanda score | miRanda Defined Binding Region (Relative to Extended Clash Identified Region) | Transcript Binding Sequence (miRanda) | Regulator Binding Sequence (miRanda) | Extended Clash Identified Region Start Position (RNAup) | Extended Clash Identified Region End Position (RNAup) | Regulator Binding Sequence (RNAup) | Transcript Binding Sequence (RNAup) | RNAup Defined Binding Region (Relative to Clash Identified Region) | RNAup Binding Energy | pirscan_target_pos | pir_target_mRNA_region | mRNA Length | hybrid_read | Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions) |
-|---------------------|----------------|------------------|--------------------------------------|-----------------------------------------------|-----------------------------------------------|----------------------------------------|------------|--------------|------------------------|--------------|-----------------|-----|--------------------------------------------------|---------|--------------------------------------------|--------------------------------------------|-------|--------------|----------|---------|---------------------------------------------------|---------------------------------------------------|------------|--------------|---------------------------------------------------------|----------------------------------|--------------------------------|--------------------------------------------------|--------------------------------------------------|---------------------------------|---------------------------------|------------------------------------------------------|------------------|-------------------|----------------------|-----------|-------------|--------------------------------------------------|
-| AAAAACACCGTCTTCCTCCAGTGGAGGCCTGGTTGTTTG | Y45F10D.12.1 | Y40H7A.12b | 427-446 | 2-21 | 1-18 | 22-39 | AAAACACCGTCTTCCTCCAG | TGGAGGCCTGGTTGTTTGTGC | 445 | -27.5 | TGGAGGCCTGGTTGTTTGTGC | 0 | 6 | 1656 | [] | [] | 1 | 6.0 | 1.0 | 0 | 425 | 446 | -13.83 | 109.0 | 426-442 | --gaAAAC-ACC-GTCTTCCt | cgtgTTTGTTGGTCCGGAGGt | 425 | 446 | CGTGTTTGTTGGT--CCGGAGGT | --GAAAAC-ACCGTCTTCCTCCA | 426-445 | -14.54 | 426-446 | GAAAACACCGTCTTCCTCCAG | 657 | Y45F10D.12.1_Y40H7A.12b | [] |
-| AAAAACATCCATGCCCTCCAATCGTATTGGAGGCCTGGTTGTTTG | C27A2.3.1 | Y40H7A.12b | 320-343 | 1-24 | 1-18 | 28-45 | AAAAACATCCATGCCCTCCAATCG | TGGAGGCCTGGTTGTTTGTGC | 341 | -28.5 | TGGAGGCCTGGTTGTTTGTGC | 1 | 3 | 1747 | [] | [334] | 1 | 3.0 | 1.0 | 0 | 319 | 342 | -19.44 | 122.0 | 320-339 | --AAAAACATCCATGCTCTCCa | cgTGTTTGTTGGT-CCGGAGGt | 319 | 342 | CGTGTTTGTTGGTCCG-GAGGT | --AAAAACATCCATGCTCTCCA | 320-339 | -18.29 | 322-342 | AAACATCCATGCTCTCCAATC | 937 | C27A2.3.1_Y40H7A.12b | [334] |
+_short.csv example:
 
 
-### run_all.sh
-To run the MutaCLASH pipeline, get abundance information and see figure result, execute the following command:
+### run_additional.sh
 ```bash
-sh run_all.sh --input <input file> --regulator <regulator file> --transcript <transcript file> --algorithm <algorithm> --abundance_type <abundance analysis type> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
+sh run_additional.sh --input <PRG-1 or ALG-1>
 ```
 **required arguments:**
-- **input file:** NGS data in FASTQ format.
-- **regulator file**: regulator file in FASTA format.
-- **transcript file**: transcript file in FASTA format.
-- **algorithm**: Algorithm used to predict binding sites, which can be `pirScan, miRanda, RNAup`.
-- **abundance analysis type**: Method used to analyze abundance, which can be `abu, region, site, up` refers to "mRNA abundance" (check more details about this in `pipeline/add_abundance/abu_data/`), and 22G-RNA abundance (WAGO-1 IP) in "CLASH identified region", "pirScan binding site", "RNAup binding site". If this parameter is not specified, abundance analysis will not be executed.
+- **input**: PRG-1 or ALG-1.
 
-**optional arguments(preprocessing):**
-- **len**: Minimum hybrid length (default: 17).
-- **slen**: Maximum hybrid length (default: 70).
-- **link**: Adapter sequence (default: "None").
-- **trim**: Phred score (default: 30).
+
+run_additional.sh is used to regenerate figures on paper; the user must first place ALG-1.csv and PRG-1.csv in the data/input folder before running this program.
+
+[Reference metadata files and output files](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/jSirL0jvo)
 
 After executing the command, the pipeline will run and complete all the necessary steps. Please refer to the [examples](https://github.com/RyanCCJ/MutaCLASH/tree/master/examples) we provided.
 
