@@ -135,6 +135,9 @@ def bestmatch(ori_mrna_initpos,ori_mrna_endpos,mrna,pirna,mrna_endpos,s): # pirs
         nogumis=[]
         b={}
         
+        
+        pairing = []
+
         for j in range(0,len(ret)):
             for k in range(0,len_small_RNA):
                 if pirna[k] != ret[j][k]: #mismatch
@@ -162,7 +165,7 @@ def bestmatch(ori_mrna_initpos,ori_mrna_endpos,mrna,pirna,mrna_endpos,s): # pirs
                             score = score - 2
             mismatch.append(onemis)
             score_list.append(score)
-            
+            pairing.append(ret[j][:])
             gumis_zero_list.append(gumis_zero)
             nogumis_zero_list.append(nogumis_zero)
             gumis_seedlist.append(gumis_inseed)
@@ -192,6 +195,7 @@ def bestmatch(ori_mrna_initpos,ori_mrna_endpos,mrna,pirna,mrna_endpos,s): # pirs
             bestpos = bestpos_s[bestpos_ss[-1]]    #if 與Target rna重疊部分一樣多，則保留位置前面的,找最前面的位置， 因為前面算分是從後開始算， 所以要取最後位
             bestmismatch = mismatch[bestpos]
             totalmismatch = len(bestmismatch)
+            target_seq = pairing[bestpos]
                 
             bestmrna_endpos = retpos[bestpos]
             # print(score_list)
@@ -217,11 +221,12 @@ def bestmatch(ori_mrna_initpos,ori_mrna_endpos,mrna,pirna,mrna_endpos,s): # pirs
             nogu=np.append(nogu_zero,nogumis_seed)
             nogu=np.append(nogu,nogumis)
                 #s_i = str(s)+'_'+str(m)
-            b[s] = [bestmrna_endpos,bestscore,totalnguseed,totalguseed,totalngu,totalgu,totalmismatch,nogu,gu]
+            b[s] = [bestmrna_endpos,bestscore,target_seq,totalnguseed,totalguseed,totalngu,totalgu,totalmismatch,nogu,gu]
 
         else :    
             bestpos = bestpos_s[0]    
             bestmismatch = mismatch[bestpos]
+            target_seq = pairing[bestpos]
             totalmismatch = len(bestmismatch)
         #  print(score_list)
             bestmrna_endpos = retpos[bestpos]
@@ -246,12 +251,12 @@ def bestmatch(ori_mrna_initpos,ori_mrna_endpos,mrna,pirna,mrna_endpos,s): # pirs
 
             nogu=np.append(nogu_zero,nogumis_seed)
             nogu=np.append(nogu,nogumis)
-            b[s] = [bestmrna_endpos,bestscore,totalnguseed,totalguseed,totalngu,totalgu,totalmismatch,nogu,gu]
-        
+            b[s] = [bestmrna_endpos,bestscore,target_seq,totalnguseed,totalguseed,totalngu,totalgu,totalmismatch,nogu,gu]
         return b
     else:
         #b = {}
-        b[s] = [0,0,0,0,0,0,0,0,0]
+        b = {}
+        b[s] = [0,0,'',0,0,0,0,0,0,0]
         return b
 if __name__ == "__main__":
     """
@@ -327,11 +332,19 @@ if __name__ == "__main__":
     data_score = pd.DataFrame.from_dict(b, orient='index')
     score_list = list(data_score[1])
     target_end_list = [str(n) for n in list(data_score[0])]
+    target_seq = [str(n) for n in list(data_score[2])]
     #data_score = data_score.rename(columns={0:'target_score_endpos', 1:"targeting_score",2:'xgu_inseed',3:'gu_inseed',4:'xgu_innon-seed',5:'gu_innon-seed',6:'totalmismatch',7:'xGU_mispos',8: 'GU_mispos'})
     #DATA = pd.concat([lastdata, data_score], axis=1)
     #DATA= DATA.drop(columns=['pirev','pirev_compl','sequence'])
     lastdata['pirscan_target_endpos'] = target_end_list
     lastdata['targeting_score'] = score_list
+    lastdata['-'] = '-'
+    lastdata['pirscan Target RNA sequence'] = target_seq
+    lastdata['pirscan_target_endpos'] = lastdata['pirscan_target_endpos'].astype('int')
+    # lastdata['pirscan_target_initpos'] = lastdata['pirscan_target_endpos'] - len(lastdata['pirscan Target RNA sequence']) + 1
+    lastdata['pirscan_target_initpos'] = lastdata['pirscan_target_endpos'] - lastdata['pirscan Target RNA sequence'].str.len() + 1
+    lastdata['pirscan binding site'] = lastdata['pirscan_target_initpos'].astype('str') + lastdata['-'] + lastdata['pirscan_target_endpos'].astype('str')
+    lastdata['pirscan score'] = score_list
     print('===== filtering score =====')
     #if score_cutoff is not None:
     #    DATA = DATA[DATA['targeting_score'].astype(float) <= score_cutoff]

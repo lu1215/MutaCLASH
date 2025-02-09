@@ -228,6 +228,9 @@ sed -i \
     -e '1s|Hybrid_read|Transcript-Regulator Pair (For Pair Counting)|' \
     -e '1s|,A|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|' \
     -e '1s|mir_energy|Binding Energy Calculated by miRanda|' \
+    -e '1s|pirscan|pirScan|' \
+    -e '1s|miranda|miRanda|' \
+    -e '1s|rnaup|RNAup|' \
     data/output/${DIR}/${DATA}_short.csv
 
 cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/

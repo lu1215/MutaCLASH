@@ -1,17 +1,8 @@
 #!/bin/bash
 # ===========================
 # Main Arguments
-# <input file>: NGS data in FASTQ format.
-# <regulator file>: regulator file in FASTA format.
-# <transcript file>: transcript file in FASTA format.
-# <algorithm>: Algorithm used to predict binding sites, which can be "pirScan", "miRanda", "RNAup".
-# <abundance analysis type>: Method used to analyze abundance, which can be "abu", "region", "site", "up".
-# optional arguments:
-# <len>: Minimum hybrid length (default: 17).
-# <slen>: Maximum hybrid length (default: 70).
-# <link>: Adapter sequence (default: "None").
-# <trim>: Phred score (default: 30).
-# Full Documentation: https://github.com/RyanCCJ/MutaCLASH
+# <input file>: ALG-1 or PRG-1.
+# Full Documentation: https://github.com/lu1215/MutaCLASH
 # ===========================
 
 # example: sh run_additional.sh --input PRG-1
@@ -209,6 +200,9 @@ sed -i \
     -e '1s|Hybrid_read|Transcript-Regulator Pair (For Pair Counting)|' \
     -e '1s|,A|,Mutation Sites on mRNA (Deletion + Mismatch, Absolute Positions)|' \
     -e '1s|mir_energy|Binding Energy Calculated by miRanda|' \
+    -e '1s|pirscan|pirScan|' \
+    -e '1s|miranda|miRanda|' \
+    -e '1s|rnaup|RNAup|' \
     data/output/${DIR}/${DATA}_short.csv
 
 cp -r pipeline/generate_figure/figure data/output/${DIR}/
