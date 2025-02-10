@@ -31,12 +31,111 @@ MutaCLASH.sh will generate two .csv files: one for users to view the results of 
 _short.csv with columns `CLASH read sequence,read count,Target RNA Name,Regulator RNA Name,Target RNA Region Found in CLASH Read,Region on CLASH Read identified as Target RNA,Region on CLASH Read identified as Regulator RNA,Regulator RNA Region Found in CLASH Read,Deletion Sites on mRNA (Absolute Positions),Mismatch Sites on mRNA (Absolute Positions),pirScan score,pirScan binding site,pirScan Target RNA sequence,pirScan Regulator RNA sequence,Binding Energy Calculated by miRanda,miRanda binding site,Target Binding Sequence (miRanda),Regulator Binding Sequence (miRanda),RNAup Binding Energy,RNAup binding site,Target Binding Sequence (RNAup),Regulator Binding Sequence (RNAup)`
 
 _short.csv example:
-| CLASH read sequence                                   | read count | Target RNA Name | Regulator RNA Name | Target RNA Region Found in CLASH Read | Region on CLASH Read identified as Target RNA | Region on CLASH Read identified as Regulator RNA | Regulator RNA Region Found in CLASH Read | Deletion Sites on mRNA (Absolute Positions) | Mismatch Sites on mRNA (Absolute Positions) | pirScan score | pirScan binding site | pirScan Target RNA sequence | pirScan Regulator RNA sequence | Binding Energy Calculated by miRanda | miRanda binding site | Target Binding Sequence (miRanda) | Regulator Binding Sequence (miRanda) | RNAup Binding Energy | RNAup binding site | Target Binding Sequence (RNAup) | Regulator Binding Sequence (RNAup) |
+<!-- | CLASH read sequence                                   | read count | Target RNA Name | Regulator RNA Name | Target RNA Region Found in CLASH Read | Region on CLASH Read identified as Target RNA | Region on CLASH Read identified as Regulator RNA | Regulator RNA Region Found in CLASH Read | Deletion Sites on mRNA (Absolute Positions) | Mismatch Sites on mRNA (Absolute Positions) | pirScan score | pirScan binding site | pirScan Target RNA sequence | pirScan Regulator RNA sequence | Binding Energy Calculated by miRanda | miRanda binding site | Target Binding Sequence (miRanda) | Regulator Binding Sequence (miRanda) | RNAup Binding Energy | RNAup binding site | Target Binding Sequence (RNAup) | Regulator Binding Sequence (RNAup) |
 |-------------------------------------------------------|------------|-----------------|---------------------|-----------------------------------------|-----------------------------------------------|-----------------------------------------------|---------------------------------------------|-----------------------------------------------|-----------------------------------------------|--------------|----------------------|-----------------------------|-----------------------------|---------------------------------|--------------------|----------------------------------|----------------------------------|------------------|----------------|--------------------------------|--------------------------------|
 | AAAAACACCGTCTTCCTCCAGTGGAGGCCTGGTTGTTTG              | 6          | Y45F10D.12.1    | Y40H7A.12b          | 427-446                                 | 2-21                                         | 1-18                                         | 22-39                                       | []                                            | []                                            | -27.5        | 425-445              | GACCTCCTTCTGCCACAAAAG       | TGGAGGCCTGGTTGTTTGTGC       | -13.83                          | 425-446            | &nbsp;--gaAAAC-ACC-GTCTTCCt         | cgtgTTTGTTGGTCCGGAGGt         | -14.54            | 425-446        | &nbsp;--GAAAAC-ACCGTCTTCCTCCA     | CGTGTTTGTTGGT--CCGGAGGT     |
 | AAAAACATCCATGCCCTCCAATCGTATTGGAGGCCTGGTTGTTTG        | 3          | C27A2.3.1       | Y40H7A.12b          | 320-343                                 | 1-24                                         | 1-18                                         | 28-45                                       | []                                            | [334]                                         | -28.5        | 321-341              | CTAACCTCTCGTACCTACAAA       | TGGAGGCCTGGTTGTTTGTGC       | -19.44                          | 319-342            | &nbsp;--<br>AAAAACATCCATGCTCTCCa       | cgTGTTTGTTGGT-CCGGAGGt       | -18.29            | 319-342        | &nbsp;--<br>AAAAACATCCATGCTCTCCA     | CGTGTTTGTTGGTCCG-GAGGT     |
-| AAAAACATCCATGCTCTCCAATCGACACTGCAAACTATTGAGGCCTGGTTGTTTG | 2          | C27A2.3.1       | Y40H7A.12b          | 320-354                                 | 1-35                                         | 3-18                                         | 40-55                                       | []                                            | []                                            | -28.5        | 331-351              | AACGTCACAGCTAACCTCTCG       | TGGAGGCCTGGTTGTTTGTGC       | -19.44                          | 319-353            | &nbsp;--<br>AAAAACATCCATGCTCTCCa       | cgTGTTTGTTGGT-CCGGAGGt       | -16.89            | 319-353        | &nbsp;--<br>AAAAACATCCATGCTCTCCA     | CGTGTTTGTTGGTCCG-GAGGT     |
+| AAAAACATCCATGCTCTCCAATCGACACTGCAAACTATTGAGGCCTGGTTGTTTG | 2          | C27A2.3.1       | Y40H7A.12b          | 320-354                                 | 1-35                                         | 3-18                                         | 40-55                                       | []                                            | []                                            | -28.5        | 331-351              | AACGTCACAGCTAACCTCTCG       | TGGAGGCCTGGTTGTTTGTGC       | -19.44                          | 319-353            | &nbsp;--<br>AAAAACATCCATGCTCTCCa       | cgTGTTTGTTGGT-CCGGAGGt       | -16.89            | 319-353        | &nbsp;--<br>AAAAACATCCATGCTCTCCA     | CGTGTTTGTTGGTCCG-GAGGT     | -->
 
+
+<table border="1">
+<tr>
+<th>CLASH read sequence</th>
+<th>read count</th>
+<th>Target RNA Name</th>
+<th>Regulator RNA Name</th>
+<th>Target RNA Region Found in CLASH Read</th>
+<th>Region on CLASH Read identified as Target RNA</th>
+<th>Region on CLASH Read identified as Regulator RNA</th>
+<th>Regulator RNA Region Found in CLASH Read</th>
+<th>Deletion Sites on mRNA (Absolute Positions)</th>
+<th>Mismatch Sites on mRNA (Absolute Positions)</th>
+<th>pirScan score</th>
+<th>pirScan binding site</th>
+<th>pirScan Target RNA sequence</th>
+<th>pirScan Regulator RNA sequence</th>
+<th>Binding Energy Calculated by miRanda</th>
+<th>miRanda binding site</th>
+<th>Target Binding Sequence (miRanda)</th>
+<th>Regulator Binding Sequence (miRanda)</th>
+<th>RNAup Binding Energy</th>
+<th>RNAup binding site</th>
+<th>Target Binding Sequence (RNAup)</th>
+<th>Regulator Binding Sequence (RNAup)</th>
+</tr>
+<tr>
+<td nowrap="nowrap" >AAAAACACCGTCTTCCTCCAGTGGAGGCCTGGTTGTTTG</td>
+<td nowrap="nowrap" >6</td>
+<td nowrap="nowrap" >Y45F10D.12.1</td>
+<td nowrap="nowrap" >Y40H7A.12b</td>
+<td nowrap="nowrap" >427-446</td>
+<td nowrap="nowrap" >2-21</td>
+<td nowrap="nowrap" >1-18</td>
+<td nowrap="nowrap" >22-39</td>
+<td nowrap="nowrap" >[]</td>
+<td nowrap="nowrap" >[]</td>
+<td nowrap="nowrap" >-27.5</td>
+<td nowrap="nowrap" >425-445</td>
+<td nowrap="nowrap" >GACCTCCTTCTGCCACAAAAG</td>
+<td nowrap="nowrap" >TGGAGGCCTGGTTGTTTGTGC</td>
+<td nowrap="nowrap" >-13.83</td>
+<td nowrap="nowrap" >425-446</td>
+<td nowrap="nowrap" >--gaAAAC-ACC-GTCTTCCt</td>
+<td nowrap="nowrap" >cgtgTTTGTTGGTCCGGAGGt</td>
+<td nowrap="nowrap" >-14.54</td>
+<td nowrap="nowrap" >425-446</td>
+<td nowrap="nowrap" >--GAAAAC-ACCGTCTTCCTCCA</td>
+<td nowrap="nowrap"  >CGTGTTTGTTGGT--CCGGAGGT</td>
+</tr>
+<tr>
+<td nowrap="nowrap" >AAAAACATCCATGCCCTCCAATCGTATTGGAGGCCTGGTTGTTTG</td>
+<td nowrap="nowrap" >3</td>
+<td nowrap="nowrap" >C27A2.3.1</td>
+<td nowrap="nowrap" >Y40H7A.12b</td>
+<td nowrap="nowrap" >320-343</td>
+<td nowrap="nowrap" >1-24</td>
+<td nowrap="nowrap" >1-18</td>
+<td nowrap="nowrap" >28-45</td>
+<td nowrap="nowrap" >[]</td>
+<td nowrap="nowrap" >[334]</td>
+<td nowrap="nowrap" >-28.5</td>
+<td nowrap="nowrap" >321-341</td>
+<td nowrap="nowrap" >CTAACCTCTCGTACCTACAAA</td>
+<td nowrap="nowrap" >TGGAGGCCTGGTTGTTTGTGC</td>
+<td nowrap="nowrap" >-19.44</td>
+<td nowrap="nowrap" >319-342</td>
+<td nowrap="nowrap" >--AAAAACATCCATGCTCTCCa</td>
+<td nowrap="nowrap" >cgTGTTTGTTGGT-CCGGAGGt</td>
+<td nowrap="nowrap" >-18.29</td>
+<td nowrap="nowrap" >319-342</td>
+<td nowrap="nowrap" >--AAAAACATCCATGCTCTCCA</td>
+<td nowrap="nowrap" >CGTGTTTGTTGGTCCG-GAGGT</td>
+</tr>
+<tr>
+<td nowrap="nowrap" >AAAAACATCCATGCTCTCCAATCGACACTGCAAACTATTGAGGCCTGGTTGTTTG</td>
+<td nowrap="nowrap" >2</td>
+<td nowrap="nowrap" >C27A2.3.1</td>
+<td nowrap="nowrap" >Y40H7A.12b</td>
+<td nowrap="nowrap" >320-354</td>
+<td nowrap="nowrap" >1-35</td>
+<td nowrap="nowrap" >3-18</td>
+<td nowrap="nowrap" >40-55</td>
+<td nowrap="nowrap" >[]</td>
+<td nowrap="nowrap" >[]</td>
+<td nowrap="nowrap" >-28.5</td>
+<td nowrap="nowrap" >331-351</td>
+<td nowrap="nowrap" >AACGTCACAGCTAACCTCTCG</td>
+<td nowrap="nowrap" >TGGAGGCCTGGTTGTTTGTGC</td>
+<td nowrap="nowrap" >-19.44</td>
+<td nowrap="nowrap" >319-353</td>
+<td nowrap="nowrap" >--AAAAACATCCATGCTCTCCa</td>
+<td nowrap="nowrap" >cgTGTTTGTTGGT-CCGGAGGt</td>
+<td nowrap="nowrap" >-16.89</td>
+<td nowrap="nowrap" >319-353</td>
+<td nowrap="nowrap" >--AAAAACATCCATGCTCTCCA</td>
+<td nowrap="nowrap" >CGTGTTTGTTGGTCCG-GAGGT</td>
+</tr>
+</table>
 
 
 
