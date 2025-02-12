@@ -16,9 +16,9 @@ To run only MutaCLASH pipeline, execute the following command:
 sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
 ```
 **required arguments:**
-- **input file**: NGS data in FASTQ format.
-- **regulator file**: regulator file in FASTA format.
-- **transcript file**: transcript file in FASTA format.
+- **input file**: NGS data in FASTQ format. (relative address of MutaCLASH folder)
+- **regulator file**: regulator file in FASTA format. (relative address of MutaCLASH folder)
+- **transcript file**: transcript file in FASTA format. (relative address of MutaCLASH folder)
 
 **optional arguments(preprocessing):**
 - **len**: Minimum hybrid length (default: 17).
