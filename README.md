@@ -147,6 +147,7 @@ sh run_additional.sh --input <PRG-1 or ALG-1>
 **required arguments:**
 - **input**: PRG-1 or ALG-1.
 
+See https://github.com/lu1215/MutaCLASH/tree/master/examples/paper%20data for an example.
 
 run_additional.sh is used to regenerate figures on paper; the user must first place ALG-1.csv and PRG-1.csv in the data/input folder before running this program.
 
