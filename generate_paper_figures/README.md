@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ## PRG-1 CLASH Data Processing
 1. **[Download the PRG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/fsdownload/jSirL0jvo/example_data_for_github)** and place it in the following directory:
    ```
-   MutaCLASH/data/input
+   MutaCLASH/generate_paper_figures/input
    ```
 2. Run the processing script:
    ```bash
@@ -21,7 +21,7 @@ pip install -r requirements.txt
    ```
 3. The output will be saved in:
    ```
-   MutaCLASH/data/output/PRG-1_<date_time>/
+   MutaCLASH/generate_paper_figures/output/PRG-1_<date_time>/
    ```
    This folder contains:
    - Two CSV files:
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 ## ALG-1 CLASH Data Processing
 1. **[Download the ALG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/fsdownload/jSirL0jvo/example_data_for_github)** and place it in:
    ```
-   MutaCLASH/data/input
+   MutaCLASH/generate_paper_figures/input
    ```
 2. Execute the following command:
    ```bash
@@ -45,7 +45,7 @@ pip install -r requirements.txt
    ```
 3. The results will be saved in:
    ```
-   MutaCLASH/data/output/ALG-1_<date_time>/
+   MutaCLASH/generate_paper_figures/output/ALG-1_<date_time>/
    ```
    This folder contains:
    - Two CSV files:
@@ -75,7 +75,7 @@ After executing the command, the pipeline will run and complete all the necessar
 
 
 ## Output
-The output files are stored in the `data/output/` directory. The directory contains the following files:
+The output files are stored in the `output/` directory. The directory contains the following files:
 - **CSV file**: Contains results with all information fields.
 - **Figures:** The final generated figures are stored in the `figure/` subdirectory.
 - **Logs**: Records commands, and summarizes the quantity, proportion, and distribution of various mutations, which are stored in the `log/` subdirectory.
