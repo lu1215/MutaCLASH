@@ -231,6 +231,7 @@ sed -i \
     -e '1s|pirscan|pirScan|' \
     -e '1s|miranda|miRanda|' \
     -e '1s|rnaup|RNAup|' \
+    -e '1s|raw_regulator_seq|pirscan Regulator RNA sequence|' \
     data/output/${DIR}/${DATA}_short.csv
 
 cp pipeline/preprocess/output/${DATA}_trimming.log data/output/${DIR}/log/
