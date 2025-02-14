@@ -24,9 +24,8 @@ pip install -r requirements.txt
    MutaCLASH/generate_paper_figures/output/PRG-1_<date_time>/
    ```
    This folder contains:
-   - Two CSV files:
+   - CSV file:
      - A detailed dataset with MutaCLASH and abundance information.
-     - A `_short.csv` file with simplified, more interpretable columns.
    - A `figure` folder containing:
      - Four subfolders: `abu_plot`, `distribution_plot`, `G22_plot`, and `pairing_ratio_plot`.
      - A score plot.
@@ -48,9 +47,8 @@ pip install -r requirements.txt
    MutaCLASH/generate_paper_figures/output/ALG-1_<date_time>/
    ```
    This folder contains:
-   - Two CSV files:
+   - CSV file:
      - A comprehensive dataset with MutaCLASH and abundance data.
-     - A `_short.csv` version with simplified column names for easier interpretation.
    - A `figure` directory, which includes:
      - Subdirectories: `abu_plot`, `distribution_plot`, `G22_plot`, and `pairing_ratio_plot`.
      - A score plot.
