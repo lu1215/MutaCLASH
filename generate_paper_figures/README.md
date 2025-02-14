@@ -71,7 +71,7 @@ run_additional.sh is used to regenerate figures on paper; the user must first pl
 
 [Reference metadata files and output files](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/jSirL0jvo)
 
-After executing the command, the pipeline will run and complete all the necessary steps. Please refer to the [examples](https://github.com/lu1215/MutaCLASH/tree/master/examples) we provided.
+<!-- After executing the command, the pipeline will run and complete all the necessary steps. Please refer to the [examples](https://github.com/lu1215/MutaCLASH/tree/master/examples) we provided. -->
 
 
 ## Output
