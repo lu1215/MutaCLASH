@@ -25,7 +25,7 @@ pip install -r requirements.txt
    ```
    This folder contains:
    - CSV file:
-     - A detailed dataset with MutaCLASH and abundance information.
+     - Contains results with all information fields.
    - A `figure` folder containing:
      - Four subfolders: `abu_plot`, `distribution_plot`, `G22_plot`, and `pairing_ratio_plot`.
      - A score plot.
@@ -48,7 +48,7 @@ pip install -r requirements.txt
    ```
    This folder contains:
    - CSV file:
-     - A comprehensive dataset with MutaCLASH and abundance data.
+     - Contains results with all information fields.
    - A `figure` directory, which includes:
      - Subdirectories: `abu_plot`, `distribution_plot`, `G22_plot`, and `pairing_ratio_plot`.
      - A score plot.
