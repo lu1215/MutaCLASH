@@ -6,7 +6,6 @@ To get started, clone the repository and install the required dependencies:
 ```bash
 git clone https://github.com/lu1215/MutaCLASH.git
 cd MutaCLASH/generate_paper_figures
-apt-get install -y samtools bowtie2
 pip install -r requirements.txt
 ```
 
