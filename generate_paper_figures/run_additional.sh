@@ -75,10 +75,14 @@ TAR=${TAR%.*}.csv
 # remove metadatas
 DEL_META=false
 
-# set environment
-. ../environment.sh
 
 # --------------------------
+
+# set environment
+
+cd ..
+. ./environment.sh
+cd generate_paper_figures
 
 echo "Step1. add abundance"
 cd ../pipeline/add_abundance
