@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 
 ## PRG-1 CLASH Data Processing
-1. **[Download the PRG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/vdeBl85v6)** and place it in the following directory:
+1. **[Download the PRG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/iXKXJG1yb)** and place it in the following directory:
    ```
    MutaCLASH/generate_paper_figures/input
    ```
@@ -33,7 +33,7 @@ pip install -r requirements.txt
 ---
 
 ## ALG-1 CLASH Data Processing
-1. **[Download the ALG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/ZwWod8t9K)** and place it in:
+1. **[Download the ALG-1.csv file](http://nas.csblab.ee.ncku.edu.tw:32200/sharing/iXKXJG1yb)** and place it in:
    ```
    MutaCLASH/generate_paper_figures/input
    ```
