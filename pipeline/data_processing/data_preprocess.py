@@ -2,6 +2,8 @@ import pandas as pd
 import time
 import argparse
 from tqdm import tqdm, trange
+from filter_dup_cond import filter_hybrid_seq
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--inputname", help="type input filename", type=str)
@@ -124,4 +126,5 @@ data['A'] = [eval(str(data['D'][i]))+eval(str(data['M'][i])) for i in range(len(
 data = data.drop(columns=['sequence'])
 outputname = inputname.split('/')[-1].replace('_detail_with_overlap.csv', '')
 print(outputname)
+data = filter_hybrid_seq(data)
 data.to_csv('after_preprocess/{}_final.csv'.format(outputname), index=False)
