@@ -203,8 +203,8 @@ sed -i \
     -e '1s|regulator_name|Regulator RNA Name|' \
     -e '1s|transcript_name|Target RNA Name|' \
     -e '1s|rem_tran_target_pos|Target RNA Region Found in CLASH Read|' \
-    -e '1s|reg_hyb_target_pos|Regulator RNA Region Found in CLASH Read|' \
-    -e '1s|on_reg_pos|Region on CLASH Read identified as Regulator RNA|' \
+    -e '1s|reg_hyb_target_pos|Region on CLASH Read identified as Regulator RNAd|' \
+    -e '1s|on_reg_pos|Regulator RNA Region Found in CLASH Read|' \
     -e '1s|remain_pos|Region on CLASH Read identified as Target RNA|' \
     -e '1s|targeting_score|pirScan score|' \
     -e '1s|mir_score|miRanda score|' \
