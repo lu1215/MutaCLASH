@@ -7,7 +7,8 @@ import chira_utilities
 
 
 def align_with_bwa(align_type, index_type, query_fasta, refindex, outdir, seed_length, align_score,
-                   macth_score, mistmatch_score, gap_o, gap_e, n_aligns, processes):
+                   macth_score, mistmatch_score, gap_o, gap_e, n_aligns, processes
+                   ,transposon=False):
     """
         Funtion that maps the reads to the transcriptome. Different parameters
         are used for long and short alignments.
@@ -40,10 +41,12 @@ def align_with_bwa(align_type, index_type, query_fasta, refindex, outdir, seed_l
                   #"-h " + str(n_aligns),             # if there're -h hits with score >80% of the maxscore, output in XA
                   "-k " + str(seed_length),     # minimum seed length
                   "-T " + str(align_score),     # minimum alignment score
-                  "-t " + str(processes),
-                  refindex,
-                  query_fasta
-                  ]
+                  "-t " + str(processes)
+                 ]
+    if transposon:
+        bwa_params.append("-a")
+    bwa_params.extend([refindex, query_fasta])
+    
     bwacall = ("bwa mem " + " ".join(bwa_params) + " | samtools view -hbS - > " + bam)
     print(bwacall)
     os.system(bwacall)
@@ -70,7 +73,11 @@ def write_mapped_bed(bam, bed, fasta, stranded):
                 prev_unmapped = True
 
             readseq = alignment.get_forward_sequence()
-
+            # for result with -a para
+            if readseq is None:
+                # print(alignment)
+                readseq = ""
+            # ------------------------ #
             prev_fasta = ">" + readid + "\n" + readseq + "\n"
             prev_readid = readid
 
@@ -308,6 +315,11 @@ if __name__ == "__main__":
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 1.4.3')
 
+    # for transposon RNA analysis
+    parser.add_argument('--transposon', action='store_true',
+                        dest='transposon',
+                        help='Enable transposon mode (output all alignments with -a in BWA)')
+
     args = parser.parse_args()
     print('Query fasta                          : ' + args.fasta)
     print('Output directory                     : ' + args.outdir)
@@ -330,6 +342,7 @@ if __name__ == "__main__":
     if args.align_score2:
         print('Alignment score for 2nd iteration    : ' + str(args.align_score2))
     print('Chimeric overlap                     : ' + str(args.chimeric_overlap))
+    print('Transposon mode                     : ' + str(args.transposon))
     print("===================================================================")
 
     if not os.path.exists(args.outdir):
@@ -380,22 +393,22 @@ if __name__ == "__main__":
         # align with bwa
         chira_utilities.print_w_time("STRAT: Map long read segments to index1 at " + index1)
         align_with_bwa("long", "index1", args.fasta, index1, args.outdir, args.seed_length1, args.align_score1,
-                       args.match1, args.mismatch1, args.gapopen1, args.gapext1, args.nhits1, args.processes)
+                       args.match1, args.mismatch1, args.gapopen1, args.gapext1, args.nhits1, args.processes, args.transposon)
         chira_utilities.print_w_time("END: Map long read segments to index1 at " + index1)
 
         chira_utilities.print_w_time("STRAT: Map short read segments to index1 at " + index1)
         align_with_bwa("short", "index1", args.fasta, index1, args.outdir, args.seed_length2, args.align_score2,
-                       args.match2, args.mismatch2, args.gapopen2, args.gapext2, args.nhits2, args.processes)
+                       args.match2, args.mismatch2, args.gapopen2, args.gapext2, args.nhits2, args.processes, args.transposon)
         chira_utilities.print_w_time("END: Map short read segments to index1 at " + index1)
 
         if index2:
             chira_utilities.print_w_time("STRAT: Map long read segments to index2 at " + index2)
             align_with_bwa("long", "index2", args.fasta, index2, args.outdir, args.seed_length1, args.align_score1,
-                           args.match1, args.mismatch1, args.gapopen1, args.gapext1, args.nhits1, args.processes)
+                           args.match1, args.mismatch1, args.gapopen1, args.gapext1, args.nhits1, args.processes, args.transposon)
             chira_utilities.print_w_time("END: Map long read segments to index2 at " + index2)
             chira_utilities.print_w_time("STRAT: Map short read segments to index2 at " + index2)
             align_with_bwa("short", "index2", args.fasta, index2, args.outdir, args.seed_length2, args.align_score2,
-                           args.match2, args.mismatch2, args.gapopen2, args.gapext2, args.nhits2, args.processes)
+                           args.match2, args.mismatch2, args.gapopen2, args.gapext2, args.nhits2, args.processes, args.transposon)
             chira_utilities.print_w_time("END: Map short read segments to index2 at " + index2)
 
             chira_utilities.print_w_time("STRAT: Merge BAM files")

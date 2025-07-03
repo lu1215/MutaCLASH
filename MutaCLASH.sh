@@ -18,9 +18,12 @@ slen=70
 link="None"
 trim=30
 
+# default non-transposon mode
+transposon=false
+
 # Function to display usage instructions
 usage() {
-    echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]"
+    echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>] [--transposon]"
     exit 1
 }
 
@@ -54,6 +57,10 @@ while [ $# -gt 0 ]; do
         --trim)
             trim="$2"
             shift 2
+            ;;
+        --transposon)  
+            transposon=true;    
+            shift 1 
             ;;
         *)
             echo "Unknown parameter: $1"
@@ -126,7 +133,7 @@ then
     cd chira
     # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(4)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
     # >>>
-    sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18
+    sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18 ${transposon}
     # >>>
     cd ..
     TOOL=chira_${HYBRID}
@@ -139,7 +146,7 @@ fi
 echo "Step3. find deletion"
 cd find_deletion
 # >>>
-sh run.sh ${TOOL} ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR}
+sh run.sh ${TOOL} ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR} ${transposon}
 # >>>
 cd ..
 OUTPUT=find_deletion/ALL_output/${DATA}_${TOOL}_step1.csv

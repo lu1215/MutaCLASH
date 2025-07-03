@@ -13,7 +13,7 @@ The **MutaCLASH** project is designed to detect the coordinates of Crosslink Ind
 ### MutaCLASH.sh
 To run only MutaCLASH pipeline, execute the following command:
 ```bash
-sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>]
+sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>] [--transposon]
 ```
 **required arguments:**
 - **input file**: NGS data in FASTQ format. (relative address of MutaCLASH folder)
@@ -25,6 +25,7 @@ sh MutaCLASH.sh --input <input file> --regulator <regulator file> --transcript <
 - **slen**: Maximum hybrid length (default: 70).
 - **link**: Adapter sequence (default: "None").
 - **trim**: Phred score (default: 30).
+- **transposon**: Setting BWA-MEM in ChiRA with `-a` parameter, to retain equally scoring alignments (-a in BWA-MEM), this parameter can be used to analyse transposon RNA data.
 
 MutaCLASH.sh will generate two .csv files: one for users to view the results of the MutaCLASH analysis (filename ending with _short), and the other for use with run_additional.sh to generate abundance results and figures.
 

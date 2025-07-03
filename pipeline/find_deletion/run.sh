@@ -1,4 +1,7 @@
-if [ $1 = "chira_chimeras" ] || [ $1 = "chira_single" ]
+if [ "$6" = "true" ]
+then
+    python bowtie2_find.py --inputname $3 --trans ${5%.*}.csv
+elif [ $1 = "chira_chimeras" ] || [ $1 = "chira_single" ]
 then
     # merge regulator and target reference
     python merge_ref.py --reg $4 --tar $5
