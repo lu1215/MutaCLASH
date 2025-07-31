@@ -9,7 +9,7 @@ def process_csv(input_file, output_file):
 
     # 保留所需欄位
     selected_columns = [
-        "hybrid_seq", "read_count", "D", "M", "transcript_name",
+        "hybrid_seq", "read_count", "nor_readcount", "D", "M", "transcript_name",
         "regulator_name", "rem_tran_target_pos", "remain_pos", "on_reg_pos", 
         "reg_hyb_target_pos", "targeting_score", "mir_energy", "miRanda binding site","mir_transcript_seq", 
         "mir_regulator_seq", "RNAup_score", "RNAup binding site", "RNAup_transcript_seq", "RNAup_regulator_seq",
@@ -19,7 +19,7 @@ def process_csv(input_file, output_file):
     
     # 重新排序
     ordered_columns = [
-        "hybrid_seq", "read_count", "transcript_name",
+        "hybrid_seq", "read_count", "nor_readcount","transcript_name",
         "regulator_name", "rem_tran_target_pos", "remain_pos", "on_reg_pos", 
         "reg_hyb_target_pos", "D", "M", "targeting_score","pirscan binding site", "pirscan Target RNA sequence", "raw_regulator_seq",
         "mir_energy", "miRanda binding site", "mir_transcript_seq", "mir_regulator_seq", 

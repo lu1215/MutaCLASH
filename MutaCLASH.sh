@@ -207,6 +207,7 @@ python FilterReorderCsv.py data/output/${DIR}/${DATA}_short.csv data/output/${DI
 sed -i \
     -e '1s|hybrid_seq|CLASH read sequence|' \
     -e '1s|read_count|read count|' \
+    -e '1s|nor_readcount|normalized read count (evenly distributed)|' \
     -e '1s|regulator_name|Regulator RNA Name|' \
     -e '1s|transcript_name|Target RNA Name|' \
     -e '1s|rem_tran_target_pos|Target RNA Region Found in CLASH Read|' \
