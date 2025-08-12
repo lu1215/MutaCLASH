@@ -13,7 +13,7 @@ def process_csv(input_file, output_file):
         "regulator_name", "rem_tran_target_pos", "remain_pos", "on_reg_pos", 
         "reg_hyb_target_pos", "targeting_score", "mir_energy", "miRanda binding site","mir_transcript_seq", 
         "mir_regulator_seq", "RNAup_score", "RNAup binding site", "RNAup_transcript_seq", "RNAup_regulator_seq",
-        "pirscan binding site", "pirscan Target RNA sequence", "raw_regulator_seq"
+        "pirscan binding site", "pirscan Target RNA sequence", "raw_regulator_seq", 'single_read_mut_stat_significance_D', 'single_read_mut_stat_significance_M'
     ]
     df_filtered = df[selected_columns]
     
@@ -23,7 +23,7 @@ def process_csv(input_file, output_file):
         "regulator_name", "rem_tran_target_pos", "remain_pos", "on_reg_pos", 
         "reg_hyb_target_pos", "D", "M", "targeting_score","pirscan binding site", "pirscan Target RNA sequence", "raw_regulator_seq",
         "mir_energy", "miRanda binding site", "mir_transcript_seq", "mir_regulator_seq", 
-        "RNAup_score", "RNAup binding site", "RNAup_transcript_seq", "RNAup_regulator_seq"
+        "RNAup_score", "RNAup binding site", "RNAup_transcript_seq", "RNAup_regulator_seq", 'single_read_mut_stat_significance_D', 'single_read_mut_stat_significance_M'
     ]
     df_reordered = df_filtered[ordered_columns]
     

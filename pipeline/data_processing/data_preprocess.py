@@ -22,14 +22,14 @@ try:
              'raw_regulator_seq', 'idx', 'read_count', 'hybrid0', 'D', 'M', "pirscan binding site", "pirscan Target RNA sequence",
              'count', 'nor_readcount', 'nor_count', 'overlap','mir_init_pos', 'mir_end_pos','mir_energy',
              'mir_score', 'mir_target_pos', 'mir_transcript_seq', 'mir_regulator_seq','up_init_pos', 'up_end_pos',
-             'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence']]
+             'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence', 'single_read_mut_stat_significance_D', 'single_read_mut_stat_significance_M']]
 except:
     print('no pirscan1')
     data = data[['hybrid_seq', 'transcript_name', 'regulator_name', 'rem_tran_target_pos', 'remain_pos', 'on_reg_pos',
            'reg_hyb_target_pos', 'remain_seq', 'regulator_seq', 'idx', 'read_count', 'hybrid0', 'D', 'M',
            'count', 'nor_readcount', 'nor_count', 'overlap','mir_init_pos', 'mir_end_pos','mir_energy',
            'mir_score', 'mir_target_pos', 'mir_transcript_seq', 'mir_regulator_seq','up_init_pos', 'up_end_pos',
-           'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence']]
+           'RNAup_regulator_seq', 'RNAup_transcript_seq', 'RNAup_target_pos', 'RNAup_score', 'sequence', 'single_read_mut_stat_significance_D', 'single_read_mut_stat_significance_M']]
 
 data.reset_index(drop=True, inplace=True)
 tmp_list = []
