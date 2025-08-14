@@ -117,7 +117,7 @@ cd pipeline/preprocess
 # [hyb/clan/chira]
 TOOL="chira"
 # >>>
-# sh run.sh ${READ} ${DATA}
+sh run.sh ${READ} ${DATA}
 # >>>
 cd ..
 
@@ -133,7 +133,7 @@ then
     cd chira
     # run.sh [data_name] [read] [regulator] [target] [hybrid(chimeras)] [thread(4)] [seed_length(12)] [gap_penalty(6)] [mismatch_penalty(4)] [score_cutoff(18)]
     # >>>
-    # sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18 ${transposon}
+    sh run.sh ${DATA} ../preprocess/output/${DATA}.fa ${REG} ${TAR} ${HYBRID} 4 12 6 4 18 ${transposon}
     # >>>
     cd ..
     TOOL=chira_${HYBRID}
@@ -146,7 +146,7 @@ fi
 echo "Step3. find deletion"
 cd find_deletion
 # >>>
-# sh run.sh ${TOOL} ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR} ${transposon}
+sh run.sh ${TOOL} ../${BWA_OUTPUT} ../${OUTPUT} ${REG} ${TAR} ${transposon}
 # >>>
 cd ..
 OUTPUT=find_deletion/ALL_output/${DATA}_${TOOL}_step1.csv
@@ -162,19 +162,19 @@ EXTEND=n
 
 # pirScan
 # >>>
-# sh run_pirScan.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
+sh run_pirScan.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
 OUTPUT=predict_site/scan_output/${DATA}_${TOOL}_step1_scan.csv
 
 # miRanda
 # >>>
-# sh run_miRanda.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
+sh run_miRanda.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
 OUTPUT=predict_site/mir_output/${DATA}_${TOOL}_step1_scan_mir.csv
 
 # RNAup
 # >>>
-# sh run_RNAup.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
+sh run_RNAup.sh ../${OUTPUT} ${REG} ${TAR} ${EXTEND}
 # >>>
 OUTPUT=predict_site/up_output/${DATA}_${TOOL}_step1_scan_mir_RNAup.csv
 cd ..
