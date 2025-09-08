@@ -21,6 +21,12 @@ trim=30
 # default non-transposon mode
 transposon=false
 
+# default trimgalore preprocessing
+prep_tool="default"
+
+# default using python deduplication
+dedup="default"
+
 # Function to display usage instructions
 usage() {
     echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>] [--transposon]"
@@ -61,6 +67,14 @@ while [ $# -gt 0 ]; do
         --transposon)  
             transposon=true;    
             shift 1 
+            ;;
+        --prep)
+            [ "$2" = "cutadapt" ] && prep_tool="cutadapt"
+            shift 2
+            ;;
+        --dedup)
+            [ "$2" = "hyb" ] && dedup="hyb"
+            shift 2
             ;;
         *)
             echo "Unknown parameter: $1"
@@ -117,7 +131,7 @@ cd pipeline/preprocess
 # [hyb/clan/chira]
 TOOL="chira"
 # >>>
-sh run.sh ${READ} ${DATA}
+sh run.sh ${READ} ${DATA} ${prep_tool} ${dedup}
 # >>>
 cd ..
 
