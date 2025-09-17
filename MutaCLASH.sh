@@ -29,7 +29,7 @@ dedup="default"
 
 # Function to display usage instructions
 usage() {
-    echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>] [--transposon]"
+    echo "Usage: $0 --input <input file> --regulator <regulator file> --transcript <transcript file> [--len <min hybrid length>] [--slen <max hybrid length>] [--link <adapter sequence>] [--trim <phred score>] [--transposon] [--prep <preprocessing tool>] [--dedup <deduplication tool>]"
     exit 1
 }
 
