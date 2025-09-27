@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-
+import re
 import time
 import argparse
 import multiprocessing
@@ -82,7 +82,8 @@ def RNAup(idx, trans_seq, reg_seq, target_region): # RNAup 指令與結果
     #print(seq)
     f = os.popen("echo '"+seq+"'|RNAup -b -d2 --noLP -c 'S' -o")
     up = f.readlines()
-    out = up[0].split('  ')
+    # out = up[0].split('  ')
+    out = re.split(r'\s+', up[0])
     up_seq = up[1].replace('\n', '')
     #print(out)
     s = out[0]
